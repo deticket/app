@@ -1,7 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React from 'react';
-// import { Link } from "react-router-dom"
 import styled from 'styled-components';
 // import Link from 'next/link';
 // import Background from '../components/Background.jsx';
