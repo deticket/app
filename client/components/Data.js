@@ -29,4 +29,4 @@ const tickets = [ticket1, ticket2, ticket3];
 
 
 // eslint-disable-next-line import/prefer-default-export
-export { tickets };
+export { tickets jj};
