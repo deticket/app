@@ -7,32 +7,29 @@ Event - Ticket (1-N relation)
 we can design the tickets in [erc721](http://erc721.org/) style.
 
 ```
-type ticketSeat struct {
-  seatNumber int
-  seatRow int
-  seatColumn int
+type TicketData struct {
+	InitialPrice  sdk.Coins `json:"ticket_price"`   // Price of this ticket
+	MarkUpAllowed int       `json:mark_up_allowed"` // if ticket can be sold, what is max amount over originalPrice user can set per sale
+	TotalTickets  int       `json:"total_tickets"`  // Total amount of tickets
+	TicketsSold   int       `json:"tickets_sold`    // amount of tickets sold
+	Resale        bool      `json:"resale"`         // Mark if secondary market is possible
 }
-```
 
-```
-type Ticket struct {
-  seatDetails ticketSeat
-  event string
-  ticketOwner string | address
-  price int
-  ticketNumber int
+type EventDetails struct {
+	LocationName string `json:"location_name"`
+	Address      string `json:"address`  // Address of event
+	City         string `json:"city"`    // City in which the event is
+	Country      string `json:"country"` // Country the event is being held in
+	// EventDate    time
 }
-```
 
-#### Event Struct:
-
-```
 type Event struct {
-  eventName string
-  ticketQuantity int
-  eventOwner string | address
-  eventDate string
-  location string
+	// unique identifier
+	EventName         string         `json:"event_name"`          // Name of the Event
+	EventOwner        string         `json:"event_owner"`         // Event Organizer
+	EventOwnerAddress sdk.AccAddress `json:"event_owner_address"` // Event Organizer Address
+	TicketData        TicketData     `json:"ticket_data"`         // From which data to generate tickets
+	EventDetail       EventDetails   `json:"event_details"`       // struct contianing the event details
 }
 ```
 
@@ -91,7 +88,6 @@ owner address
 tokenID uint (unique identifier of the token)
 }
 ```
-
 
 # Front End Tools
 
