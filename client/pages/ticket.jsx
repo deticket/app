@@ -9,7 +9,6 @@ import styled from 'styled-components';
 
 import Ticket from '../components/displayticket';
 
-
 const Background = styled.div`
     font-size: 1.5em;
     text-align: center;
@@ -18,7 +17,6 @@ const Background = styled.div`
     height: 100vh;
     background: linear-gradient(180deg, #231A59 0%, rgba(255, 255, 255, 0) 100%), #4124EE;
 `;
-
 
 // TODO: factor divs out, change color of Icon to white, change fonts
 const DisplayTicket = props => (

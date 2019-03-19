@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-// import { makeStyles } from '@material-ui/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
-import Link from 'next/link';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 import Wallet from '@material-ui/icons/AccountBalanceWallet';
 import CreditCard from '@material-ui/icons/CreditCard';
 import Logout from '@material-ui/icons/ExitToApp';
-
+import Link from 'next/link';
 import styled from 'styled-components';
 
 const StyledCell = styled.div`
@@ -96,6 +94,7 @@ const StyledDivider = styled(Divider)`
 `;
 
 function SideNav() {
+  // state of the SideNav (open/closed); default: closed
   const [isOpen, setIsOpen] = useState(false);
 
   const sideNav = (
@@ -106,7 +105,6 @@ function SideNav() {
             Wallet
         </StyledCell>
       </Link>
-
       <Link href="/marketplace">
         <StyledCell>
           <CreditCardIcon />

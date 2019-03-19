@@ -10,6 +10,7 @@ const GlobalStyles = createGlobalStyle`
     body {
         @import url('https://fonts.googleapis.com/css?family=Roboto');
         font-family: 'Roboto', sans-serif;
+        margin: unset;
     }
 `;
 
@@ -18,12 +19,14 @@ const StyledCell = styled.div`
     text-align: center;
     color: white;
     width: 100vw;
-    height: 4em;
+    height: 6em;
     background: transparent
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    border: 10px solid white;
+    border: 4px solid white;
+    border-radius: 10px;
+    display: flex;
 `;
 
 const GridContainer = styled.div`
@@ -40,7 +43,7 @@ const Background = styled.div`
 `;
 
 const Heading1 = styled.h1`
-    height: 5em;
+    height: 3em;
     font-size: 5em;
     font-weight: lighter;
 `;
@@ -50,8 +53,7 @@ function createData(i) {
   const ticketName = tickets[i].eventName;
   console.log(tickets[i]);
   console.log(tickets[i].eventName);
-  // eslint-disable-next-line prefer-destructuring
-  const date = tickets[i].date;
+  const { date } = tickets[i];
   const ticketPrice = tickets[i].price;
 
   return {
@@ -100,8 +102,8 @@ function wallet() {
       <GridContainer>
         <List
           itemCount={tickets.length}
-          itemSize={250}
-          height={tickets.length * 250}
+          itemSize={350}
+          height={tickets.length * 350}
           width={800}
           style={{ margin: '0 auto 0 auto' }}
         >

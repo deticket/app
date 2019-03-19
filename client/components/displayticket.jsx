@@ -15,6 +15,7 @@ const GlobalStyles = createGlobalStyle`
     body {
         @import url('https://fonts.googleapis.com/css?family=Roboto');
         font-family: 'Roboto', sans-serif;
+        margin: unset;
     }
     `;
 
