@@ -6,9 +6,9 @@ Issuance and Validation will be on the admin side (event organizer) while the Sa
 
 |         |                         Issuance                          |                                Sale & Resale                                 | Validation                                 |
 | ------- | :-------------------------------------------------------: | :--------------------------------------------------------------------------: | ------------------------------------------ |
-| UI      |  Admin UI with capability to issue, sell & track tickets  |         User UI: Platform that allows users to buy and sell tickets          | UI that displays ticket (wallet) + QR Code |
-| Backend | unique tickets e.g. via ERC721 or each event as sidechain | logic of secondary sale can be programmed into the tickets (smart contracts) | verification of the ticket (Backend)       |
-| Other   |                                                           |                                                                              | (dynamically created) QR Codes             |
+| UI      |  Admin UI with capability to issue, sell & track tickets  |         User UI: Platform that allows users to buy and sell tickets          | UI that displays ticket + QR Code; UI with QR Code Reader |
+| Backend | unique tickets as non fungible token | logic of secondary sale can be programmed into the tickets (smart contracts) | verification of the ticket (Backend)       |
+| Other   |                                                           |    OAuth for User (Google & Facebook)                                                                          | (dynamically created) QR Codes             |
 
 ### Version V0.1 
 - **buying a Ticket**
@@ -22,8 +22,9 @@ Issuance and Validation will be on the admin side (event organizer) while the Sa
 
 **Sale & Resale**
 
-- UI that allows to select / "buy" a ticket from the TicketSales 
-- Ticket Wallet that shows the tickets of the user
+- UI that allows to select / "buy" a ticket from the the TicketMarketplace 
+- Ticket Wallet that shows the tickets a user has
+- Ability to select a ticket in the Ticket Wallet and display further info of the ticket
 - QR Code integration (unique QR code for each ticket)
 
 **Validation**
