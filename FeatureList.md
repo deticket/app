@@ -4,11 +4,14 @@
 Features are split up into the three stages of the Ticket Lifecycle: **Issuance**, **Sale & Resale** and **Validation**. 
 Issuance and Validation will be on the admin side (event organizer) while the Sale & Resale will be on the user side.
 
+## Feature Table for MVP (Free Events):
+
 |         |                         Issuance                          |                                Sale & Resale                                 | Validation                                 |
-| ------- | :-------------------------------------------------------: | :--------------------------------------------------------------------------: | ------------------------------------------ |
-| UI      |  Admin UI with capability to issue, sell & track tickets  |         User UI: Platform that allows users to buy and sell tickets          | UI that displays ticket + QR Code; UI with QR Code Reader |
+| ------- | ------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------- |
+| Admin UI      |  capability to issue, sell & track tickets  |           | UI with QR Code Reader |
+| User UI      |   |       Platform that allows users to buy and sell tickets          | UI that displays ticket + QR Code |
 | Backend | unique tickets as non fungible token | logic of secondary sale can be programmed into the tickets (smart contracts) | verification of the ticket (Backend)       |
-| Other   |                                                           |    OAuth for User (Google & Facebook)                                                                          | (dynamically created) QR Codes             |
+| Other   |                                                           |    OAuth for User (Google & Facebook)  <br> Email after Ticket purchase                                                                        | (dynamically created) QR Codes             |
 
 ### Version V0.1 
 - **buying a Ticket**
