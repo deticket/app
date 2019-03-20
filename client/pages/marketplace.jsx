@@ -3,6 +3,8 @@ import styled, { createGlobalStyle } from 'styled-components';
 // import TextField from '@material-ui/core/TextField';
 import { FixedSizeList as List } from 'react-window';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+
 import { events } from '../components/Data';
 import SideNav from '../components/SideNav';
 import Dialog from '../components/purchaseDialog';
@@ -19,7 +21,6 @@ const StyledCell = styled.div`
     font-size: 2em;
     text-align: center;
     color: white;
-    width: 100vw;
     height: 8em;
     background: transparent
     display: flex;
@@ -28,6 +29,16 @@ const StyledCell = styled.div`
     border: 4px solid white;
     border-radius: 10px;
     display: flex;
+    margin-left: 5%;
+    margin-right: 5%;
+`;
+
+const TopPart = styled.div`
+    display: flex; 
+    flex-direction: column;
+    align-items: flex-start; 
+    margin-left: 5%;
+    margin-right: 5%;
 `;
 
 
@@ -82,26 +93,30 @@ function createData(i) {
 }
 function marketplace() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  // eslint-disable-next-line react/prop-types
   const TopCell = ({ index, style }) => (
     <div style={style}>
-      <div style={{ display: 'flex' }}>
-        <StyledCell>
-          <div style={{
-            display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '5%', marginRight: '5%',
-          }}
-          >
-            <div>{events[index].eventName}</div>
-            <div>{events[index].date}</div>
-            <div>{events[index].location}</div>
-          </div>
-          <TestButton onClick={() => setIsDialogOpen(true)}>
-            {`Buy Tickets (${events[index].totalTickets - events[index].ticketsSold} left)`}
-          </TestButton>
-        </StyledCell>
-      </div>
+      <StyledCell>
+        <TopPart>
+          <div>{events[index].eventName}</div>
+          <div>{events[index].date}</div>
+          <div>{events[index].location}</div>
+        </TopPart>
+        <TestButton onClick={() => setIsDialogOpen(true)}>
+          {`Buy Tickets (${events[index].totalTickets - events[index].ticketsSold} left)`}
+        </TestButton>
+      </StyledCell>
     </div>
   );
+
+  TopCell.propTypes = {
+    index: PropTypes.string,
+    style: PropTypes.objectOf(PropTypes.object),
+  };
+
+  TopCell.defaultProps = {
+    index: PropTypes.string,
+    style: PropTypes.object,
+  };
 
   const rows = [
   ];
@@ -114,7 +129,7 @@ function marketplace() {
     <Background>
       <GlobalStyles />
       <SideNav />
-      <Dialog isOpen={isDialogOpen} setState={() => setIsDialogOpen()} />
+      <Dialog isOpen={isDialogOpen} setState={setIsDialogOpen} />
       <Heading1>Ticket Marketplace</Heading1>
       {/* <StyledTextField
         id="outlined-search"

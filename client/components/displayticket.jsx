@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import styled, { createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 // import Background from '../components/Background.jsx';
 
 import QRCode from 'qrcode.react';
@@ -64,8 +65,7 @@ const HeaderIcon = styled(BackIcon)`
 `;
 
 
-// TODO: factor divs out, change color of Icon to white, change fonts
-// eslint-disable-next-line react/prop-types
+// TODO: factor divs out
 const DisplayTicket = ({ id }) => (
   <div>
     <GlobalStyles />
@@ -151,5 +151,13 @@ const DisplayTicket = ({ id }) => (
   </div>
 
 );
+
+DisplayTicket.propTypes = {
+  id: PropTypes.objectOf(PropTypes.string),
+};
+
+DisplayTicket.defaultProps = {
+  id: PropTypes.objectOf(PropTypes.string),
+};
 
 export default DisplayTicket;

@@ -1,11 +1,8 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import FormControl from '@material-ui/core/FormControl';
@@ -13,6 +10,18 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Close from '@material-ui/icons/Close';
 
+
+const TopContainer = styled.div`
+  width: 100%; 
+  display: flex; 
+  justify-content: flex-end;
+`;
+
+const BottomContainer = styled.div`
+  width: 100%; 
+  display: flex; 
+  justify-content: space-around;
+`;
 
 const CloseIcon = styled(Close)`
     && {
@@ -45,38 +54,56 @@ const StyledMenuItem = styled(MenuItem)`
     }
 `;
 
+const StyledSelect = styled(Select)`
+    && {
+    font-size: 5em; 
+    width: 2em;
+    color: black;
+    }
+`;
 
-// eslint-disable-next-line react/prop-types
+const StyledDialogContentText = styled(DialogContentText)`
+  && {
+    font-size: 3em; 
+    margin-bottom: 2em;
+  }
+`;
+
+const StyledFormControl = styled(FormControl)`
+    width: 100%;
+`;
+
 function PurchaseDialog(props) {
   const [numberOfTickets, setNumberofTickets] = useState(0);
+  // console.log(`isOpen: ${props.isOpen}`);
 
   function handleNumberChange(event) {
     setNumberofTickets(event.target.value);
   }
 
+  const { isOpen } = props;
+
   return (
     <React.Fragment>
       <Dialog
         fullWidth
-        // maxWidth="true"
-        open={props.isOpen}
+        open={isOpen}
         // onClose={this.handleClose}
         aria-labelledby="max-width-dialog-title"
       >
         <DialogContent>
-          <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+          <TopContainer>
             <CloseButton onClick={() => props.setState(false)} color="primary">
               <CloseIcon />
             </CloseButton>
-          </div>
-          <DialogContentText style={{ fontSize: '3em', marginBottom: '2em' }}>
+          </TopContainer>
+          <StyledDialogContentText>
             How many Tickets do you want to get?
-          </DialogContentText>
-          <FormControl style={{ width: '100%' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-              <Select
+          </StyledDialogContentText>
+          <StyledFormControl>
+            <BottomContainer>
+              <StyledSelect
                 value={numberOfTickets}
-                style={{ fontSize: '5em', width: '2em', color: 'black' }}
                 onChange={handleNumberChange}
                 inputProps={{
                   name: 'max-width',
@@ -87,15 +114,26 @@ function PurchaseDialog(props) {
                 <StyledMenuItem value="2">2</StyledMenuItem>
                 <StyledMenuItem value="3">3</StyledMenuItem>
                 <StyledMenuItem value="4">4</StyledMenuItem>
-              </Select>
+              </StyledSelect>
               <BuyButton color="primary">
                 BUY
               </BuyButton>
-            </div>
-          </FormControl>
+            </BottomContainer>
+          </StyledFormControl>
         </DialogContent>
       </Dialog>
     </React.Fragment>
   );
 }
+
+PurchaseDialog.propTypes = {
+  isOpen: PropTypes.bool,
+  setState: PropTypes.func,
+};
+
+PurchaseDialog.defaultProps = {
+  isOpen: 'false',
+  setState: () => {},
+};
+
 export default PurchaseDialog;
