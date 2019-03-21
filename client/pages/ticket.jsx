@@ -1,14 +1,12 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
-// import Link from 'next/link';
+import PropTypes from 'prop-types';
+import { withRouter } from 'next/router';
 // import Background from '../components/Background.jsx';
 
 // import { createGlobalStyle } from "styled-components";
 
 import Ticket from '../components/displayticket';
-
 
 const Background = styled.div`
     font-size: 1.5em;
@@ -19,13 +17,22 @@ const Background = styled.div`
     background: linear-gradient(180deg, #231A59 0%, rgba(255, 255, 255, 0) 100%), #4124EE;
 `;
 
+function DisplayTicket(props) {
+  const { router } = props;
+  return (
+    <Background>
+      <Ticket id={router.query.id} />
+      {console.log(`id is: ${router.query.id}`)}
+    </Background>
+  );
+}
 
-// TODO: factor divs out, change color of Icon to white, change fonts
-const DisplayTicket = props => (
-  <Background>
-    <Ticket id={props.url.query.id} />
-    {console.log(props.url.query.id)}
-  </Background>
-);
+DisplayTicket.propTypes = {
+  router: PropTypes.string,
+};
 
-export default DisplayTicket;
+DisplayTicket.defaultProps = {
+  router: PropTypes.string,
+};
+
+export default withRouter(DisplayTicket);

@@ -1,36 +1,60 @@
-// import React from 'react';
-// import Link from 'next/link';
-// import styled from 'styled-components';
-// import { tickets } from '../components/Data.js';
-// import SideNav from '../components/SideNav.jsx';
-// import { FixedSizeList as List } from 'react-window';
-// import { createGlobalStyle } from "styled-components";
+import React, { useState } from 'react';
+import styled, { createGlobalStyle } from 'styled-components';
 // import TextField from '@material-ui/core/TextField';
+import { FixedSizeList as List } from 'react-window';
+import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 
-// const GlobalStyles = createGlobalStyle`
-//     body {
-//         @import url('https://fonts.googleapis.com/css?family=Roboto');
-//         font-family: 'Roboto', sans-serif;
-//     }
-// `;
+import { events } from '../components/Data';
+import SideNav from '../components/SideNav';
+import Dialog from '../components/purchaseDialog';
 
-// const StyledCell = styled.div`
-//     font-size: 2em;
-//     text-align: center;
-//     color: white;
-//     width: 100vw;
-//     height: 4em;
-//     background: transparent
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: space-around;
-//     border: 10px solid white;
-// `;
+const GlobalStyles = createGlobalStyle`
+    body {
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+        font-family: 'Roboto', sans-serif;
+        margin: unset;
+    }
+`;
+
+const StyledCell = styled.div`
+    font-size: 2em;
+    text-align: center;
+    color: white;
+    height: 8em;
+    background: transparent
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border: 4px solid white;
+    border-radius: 10px;
+    display: flex;
+    margin-left: 5%;
+    margin-right: 5%;
+`;
+
+const TopPart = styled.div`
+    display: flex; 
+    flex-direction: column;
+    align-items: flex-start; 
+    margin-left: 5%;
+    margin-right: 5%;
+`;
 
 
-// const GridContainer = styled.div`
-//     margin: auto;
-// `;
+const GridContainer = styled.div`
+    margin: auto;
+`;
+
+const TestButton = styled(Button)`
+    && {
+    height: 2em;
+    width: 100%;
+    font-size: 1em;
+    color: black;
+    background: white;
+    }
+`;
 
 // const StyledTextField = styled(TextField)`
 //     && {
@@ -41,88 +65,93 @@
 //     }
 // `;
 
-// const Background = styled.div`
-//     font-size: 1.5em;
-//     text-align: center;
-//     color: white;
-//     width: 100vw;
-//     height 100vh;
-//     background: linear-gradient(180deg, #231A59 0%, rgba(255, 255, 255, 0) 100%), #4124EE;
-// `;
+const Background = styled.div`
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+    width: 100vw;
+    height 100vh;
+    background: linear-gradient(180deg, #231A59 0%, rgba(255, 255, 255, 0) 100%), #4124EE;
+`;
 
-// const Heading1 = styled.h1`
-//     height: 5em;
-//     font-size: 5em;
-// `;
+const Heading1 = styled.h1`
+    height: 3em;
+    font-size: 5em;
+`;
 
-// function createData(i) {
-//     let id = i;
-//     let ticketName = tickets[i].eventName;
-//     console.log(tickets[i]);
-//     console.log(tickets[i].eventName);
-//     let date = tickets[i].date;
-//     let ticketPrice = tickets[i].price;
+function createData(i) {
+  const id = i;
+  const ticketName = events[i].eventName;
+  console.log(events[i]);
+  console.log(events[i].eventName);
+  const { date } = events[i];
+  const ticketPrice = events[i].price;
 
-//     return { id, ticketName, date, ticketPrice };
-// }
+  return {
+    id, ticketName, date, ticketPrice,
+  };
+}
+function marketplace() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const TopCell = ({ index, style }) => (
+    <div style={style}>
+      <StyledCell>
+        <TopPart>
+          <div>{events[index].eventName}</div>
+          <div>{events[index].date}</div>
+          <div>{events[index].location}</div>
+        </TopPart>
+        <TestButton onClick={() => setIsDialogOpen(true)}>
+          {`Buy Tickets (${events[index].totalTickets - events[index].ticketsSold} left)`}
+        </TestButton>
+      </StyledCell>
+    </div>
+  );
 
-// const TopCell = ({ index, style }) => (
-//     <div style={style}>
-//         <div style={{display: "flex"}}>
-//                 <Link href={{ pathname: 'displayticket', query: { id: index}}}>
-//                     <StyledCell>
-// <div style={{display: "flex",
-// justifyContent: "space-between", marginLeft: "5%", marginRight: "5%"}}>
-//                                 <div>{tickets[index].eventName}</div>
-//                                 <div>{tickets[index].price.toFixed(2)} €</div>
-//                             </div>
-//             <div style={{display: "flex", justifyContent: "flex-start", marginLeft: "5%"}}>
-//                                 {tickets[index].date}
-//                             </div>
-//                     </StyledCell>
-//                 </Link>
-//         </div>
-//     </div>
-// );
+  TopCell.propTypes = {
+    index: PropTypes.string,
+    style: PropTypes.objectOf(PropTypes.object),
+  };
 
-// //TODO: change fonts, put table logic in another component,
-// function marketplace(){
+  TopCell.defaultProps = {
+    index: PropTypes.string,
+    style: PropTypes.object,
+  };
 
-//     const rows = [
-//     ];
+  const rows = [
+  ];
 
-//     for(var i=0; i<tickets.length; i++){
-//         rows[i] = createData(i);
-//     }
+  for (let i = 0; i < events.length; i += 1) {
+    rows[i] = createData(i);
+  }
 
-//     return (
-//         <Background>
-//             <GlobalStyles/>
-//             <SideNav/>
-//                 <Heading1>Ticket Marketplace</Heading1>
+  return (
+    <Background>
+      <GlobalStyles />
+      <SideNav />
+      <Dialog isOpen={isDialogOpen} setState={setIsDialogOpen} />
+      <Heading1>Ticket Marketplace</Heading1>
+      {/* <StyledTextField
+        id="outlined-search"
+        label="Search field"
+        type="search"
+        // className={classes.textField}
+        margin="normal"
+        variant="outlined"
+      /> */}
+      <GridContainer>
+        <List
+          itemCount={events.length}
+          itemSize={450}
+          height={events.length * 450}
+          width={800}
+          style={{ margin: '0 auto 0 auto' }}
+        >
+          {TopCell}
+        </List>
+      </GridContainer>
+    </Background>
+  );
+}
 
-//                 <StyledTextField
-//                   id="outlined-search"
-//                   label="Search field"
-//                   type="search"
-//                   //className={classes.textField}
-//                   margin="normal"
-//                   variant="outlined"
-//                 />
-
-//                 <GridContainer>
-//                     <List
-//                         itemCount={tickets.length}
-//                         itemSize={250}
-//                         height={tickets.length*250}
-//                         width={800}
-//                         style={{ margin: " 0 auto 0 auto" }}
-//                     >
-//                         {TopCell}
-//                     </List>
-//                 </GridContainer>
-//         </Background>
-//     );
-// }
-
-// export default marketplace;
+export default marketplace;

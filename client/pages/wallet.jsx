@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import styled, { createGlobalStyle } from 'styled-components';
 import { FixedSizeList as List } from 'react-window';
+import PropTypes from 'prop-types';
 
 import { tickets } from '../components/Data';
 import SideNav from '../components/SideNav';
@@ -10,6 +11,7 @@ const GlobalStyles = createGlobalStyle`
     body {
         @import url('https://fonts.googleapis.com/css?family=Roboto');
         font-family: 'Roboto', sans-serif;
+        margin: unset;
     }
 `;
 
@@ -17,13 +19,27 @@ const StyledCell = styled.div`
     font-size: 2em;
     text-align: center;
     color: white;
-    width: 100vw;
-    height: 4em;
+    height: 6em;
     background: transparent
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    border: 10px solid white;
+    border: 4px solid white;
+    border-radius: 10px;
+    display: flex;
+`;
+
+const TopRow = styled.div`
+    display: flex;
+    justify-content: space-between; 
+    margin-left: 5%;
+    margin-right: 5%;
+`;
+
+const BottomRow = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 5%;
 `;
 
 const GridContainer = styled.div`
@@ -40,18 +56,17 @@ const Background = styled.div`
 `;
 
 const Heading1 = styled.h1`
-    height: 5em;
+    height: 3em;
     font-size: 5em;
     font-weight: lighter;
 `;
 
-function createData(i) {
+function getData(i) {
   const id = i;
   const ticketName = tickets[i].eventName;
   console.log(tickets[i]);
   console.log(tickets[i].eventName);
-  // eslint-disable-next-line prefer-destructuring
-  const date = tickets[i].date;
+  const { date } = tickets[i];
   const ticketPrice = tickets[i].price;
 
   return {
@@ -59,29 +74,22 @@ function createData(i) {
   };
 }
 
-// eslint-disable-next-line react/prop-types
 const TopCell = ({ index, style }) => (
   <div style={style}>
-    <div style={{ display: 'flex' }}>
-      <Link href={`/ticket?id=${index}`}>
-        {/* // {{ pathname: 'ticket', query: { id: index}}}> */}
-        <StyledCell>
-          <div style={{
-            display: 'flex', justifyContent: 'space-between', marginLeft: '5%', marginRight: '5%',
-          }}
-          >
-            <div>{tickets[index].eventName}</div>
-            <div>
-              {tickets[index].price.toFixed(2)}
-              €
-            </div>
+    <Link href={`/ticket?id=${index}`}>
+      <StyledCell>
+        <TopRow>
+          <div>{tickets[index].eventName}</div>
+          <div>
+            {tickets[index].price.toFixed(2)}
+            €
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-start', marginLeft: '5%' }}>
-            {tickets[index].date}
-          </div>
-        </StyledCell>
-      </Link>
-    </div>
+        </TopRow>
+        <BottomRow>
+          {tickets[index].date}
+        </BottomRow>
+      </StyledCell>
+    </Link>
   </div>
 );
 
@@ -89,7 +97,7 @@ const TopCell = ({ index, style }) => (
 function wallet() {
   const rows = [];
   for (let i = 0; i < tickets.length; i += 1) {
-    rows[i] = createData(i);
+    rows[i] = getData(i);
   }
 
   return (
@@ -100,8 +108,8 @@ function wallet() {
       <GridContainer>
         <List
           itemCount={tickets.length}
-          itemSize={250}
-          height={tickets.length * 250}
+          itemSize={350}
+          height={tickets.length * 350}
           width={800}
           style={{ margin: '0 auto 0 auto' }}
         >
@@ -111,5 +119,15 @@ function wallet() {
     </Background>
   );
 }
+
+TopCell.propTypes = {
+  index: PropTypes.number,
+  style: PropTypes.objectOf(PropTypes.string),
+};
+
+TopCell.defaultProps = {
+  index: 1,
+  style: PropTypes.object,
+};
 
 export default wallet;
