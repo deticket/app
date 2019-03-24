@@ -28,11 +28,11 @@ function DisplayTicket(props) {
 }
 
 DisplayTicket.propTypes = {
-  router: PropTypes.string,
+  router: PropTypes.objectOf(PropTypes.any),
 };
 
 DisplayTicket.defaultProps = {
-  router: PropTypes.string,
+  router: PropTypes.object,
 };
 
 export default withRouter(DisplayTicket);

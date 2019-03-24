@@ -153,7 +153,7 @@ const DisplayTicket = ({ id }) => (
 );
 
 DisplayTicket.propTypes = {
-  id: PropTypes.objectOf(PropTypes.string),
+  id: PropTypes.string,
 };
 
 DisplayTicket.defaultProps = {

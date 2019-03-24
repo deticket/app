@@ -99,10 +99,10 @@ function marketplace() {
         <TopPart>
           <div>{events[index].eventName}</div>
           <div>{events[index].date}</div>
-          <div>{events[index].location}</div>
+          <div>{events[index].eventDetails.location}</div>
         </TopPart>
         <TestButton onClick={() => setIsDialogOpen(true)}>
-          {`Buy Tickets (${events[index].totalTickets - events[index].ticketsSold} left)`}
+          {`Buy Tickets (${events[index].ticketData.totalTickets - events[index].ticketData.ticketsSold} left)`}
         </TestButton>
       </StyledCell>
     </div>

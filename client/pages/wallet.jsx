@@ -101,6 +101,7 @@ function wallet() {
   }
 
   return (
+
     <Background>
       <GlobalStyles />
       <SideNav />
@@ -117,12 +118,13 @@ function wallet() {
         </List>
       </GridContainer>
     </Background>
+
   );
 }
 
 TopCell.propTypes = {
   index: PropTypes.number,
-  style: PropTypes.objectOf(PropTypes.string),
+  style: PropTypes.objectOf(PropTypes.any),
 };
 
 TopCell.defaultProps = {
