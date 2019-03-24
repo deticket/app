@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Select from '@material-ui/core/Select';
 import Close from '@material-ui/icons/Close';
 
@@ -51,6 +52,7 @@ const StyledMenuItem = styled(MenuItem)`
     && {
     font-size: 4em; 
     height: 2em;
+    text-align: end;
     }
 `;
 
@@ -59,6 +61,7 @@ const StyledSelect = styled(Select)`
     font-size: 5em; 
     width: 2em;
     color: black;
+    text-align: end;
     }
 `;
 
@@ -74,11 +77,17 @@ const StyledFormControl = styled(FormControl)`
 `;
 
 function PurchaseDialog(props) {
-  const [numberOfTickets, setNumberofTickets] = useState(0);
-  // console.log(`isOpen: ${props.isOpen}`);
+  // numberOfTickets is the value of the Select; default: 1
+  const [numberOfTickets, setNumberofTickets] = useState(1);
 
+  // function to change the value of the Select
   function handleNumberChange(event) {
     setNumberofTickets(event.target.value);
+  }
+
+  // function to set isOpen to false and close the Dialog
+  function handleClose() {
+    props.setState(false);
   }
 
   const { isOpen } = props;
@@ -88,12 +97,12 @@ function PurchaseDialog(props) {
       <Dialog
         fullWidth
         open={isOpen}
-        // onClose={this.handleClose}
+        onClose={() => handleClose()}
         aria-labelledby="max-width-dialog-title"
       >
         <DialogContent>
           <TopContainer>
-            <CloseButton onClick={() => props.setState(false)} color="primary">
+            <CloseButton onClick={() => handleClose()} color="primary">
               <CloseIcon />
             </CloseButton>
           </TopContainer>
@@ -109,6 +118,12 @@ function PurchaseDialog(props) {
                   name: 'max-width',
                   id: 'max-width',
                 }}
+                input={(
+                  <OutlinedInput
+                    name="age"
+                    id="outlined-age-simple"
+                  />
+                )}
               >
                 <StyledMenuItem value="1">1</StyledMenuItem>
                 <StyledMenuItem value="2">2</StyledMenuItem>
@@ -116,6 +131,7 @@ function PurchaseDialog(props) {
                 <StyledMenuItem value="4">4</StyledMenuItem>
               </StyledSelect>
               <BuyButton color="primary">
+                {/* Here we need to fire the transaction to buy tickets */}
                 BUY
               </BuyButton>
             </BottomContainer>

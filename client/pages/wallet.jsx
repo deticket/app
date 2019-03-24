@@ -1,11 +1,11 @@
-import React from 'react';
-import Link from 'next/link';
-import styled, { createGlobalStyle } from 'styled-components';
-import { FixedSizeList as List } from 'react-window';
-import PropTypes from 'prop-types';
+import React from "react";
+import Link from "next/link";
+import styled, { createGlobalStyle } from "styled-components";
+import { FixedSizeList as List } from "react-window";
+import PropTypes from "prop-types";
 
-import { tickets } from '../components/Data';
-import SideNav from '../components/SideNav';
+import { tickets } from "../Data";
+import SideNav from "../components/layout";
 
 const GlobalStyles = createGlobalStyle`
     body {
@@ -30,10 +30,10 @@ const StyledCell = styled.div`
 `;
 
 const TopRow = styled.div`
-    display: flex;
-    justify-content: space-between; 
-    margin-left: 5%;
-    margin-right: 5%;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 5%;
+  margin-right: 5%;
 `;
 
 const BottomRow = styled.div`
@@ -43,7 +43,7 @@ const BottomRow = styled.div`
 `;
 
 const GridContainer = styled.div`
-    margin: auto;
+  margin: auto;
 `;
 
 const Background = styled.div`
@@ -56,9 +56,9 @@ const Background = styled.div`
 `;
 
 const Heading1 = styled.h1`
-    height: 3em;
-    font-size: 5em;
-    font-weight: lighter;
+  height: 3em;
+  font-size: 5em;
+  font-weight: lighter;
 `;
 
 function getData(i) {
@@ -70,7 +70,10 @@ function getData(i) {
   const ticketPrice = tickets[i].price;
 
   return {
-    id, ticketName, date, ticketPrice,
+    id,
+    ticketName,
+    date,
+    ticketPrice
   };
 }
 
@@ -80,14 +83,9 @@ const TopCell = ({ index, style }) => (
       <StyledCell>
         <TopRow>
           <div>{tickets[index].eventName}</div>
-          <div>
-            {tickets[index].price.toFixed(2)}
-            €
-          </div>
+          <div>{tickets[index].price.toFixed(2)}€</div>
         </TopRow>
-        <BottomRow>
-          {tickets[index].date}
-        </BottomRow>
+        <BottomRow>{tickets[index].date}</BottomRow>
       </StyledCell>
     </Link>
   </div>
@@ -111,7 +109,7 @@ function wallet() {
           itemSize={350}
           height={tickets.length * 350}
           width={800}
-          style={{ margin: '0 auto 0 auto' }}
+          style={{ margin: "0 auto 0 auto" }}
         >
           {TopCell}
         </List>
@@ -122,12 +120,12 @@ function wallet() {
 
 TopCell.propTypes = {
   index: PropTypes.number,
-  style: PropTypes.objectOf(PropTypes.string),
+  style: PropTypes.objectOf(PropTypes.any)
 };
 
 TopCell.defaultProps = {
   index: 1,
-  style: PropTypes.object,
+  style: PropTypes.object
 };
 
 export default wallet;
