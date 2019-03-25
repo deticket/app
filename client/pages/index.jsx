@@ -11,7 +11,7 @@ const LandingButton = styled(Button)`
     width: 15em;
     height: 3em;
     border-radius: 10px;
-    font-size: 3em;
+    font-size: 2em;
     background-color: transparent;
   }
 `;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 // import TextField from '@material-ui/core/TextField';
 import { FixedSizeList as List } from "react-window";
 import Button from "@material-ui/core/Button";
@@ -9,13 +9,6 @@ import { events } from "../Data";
 import SideNav from "../components/layout";
 import Dialog from "../components/purchaseDialog";
 
-const GlobalStyles = createGlobalStyle`
-    body {
-        @import url('https://fonts.googleapis.com/css?family=Roboto');
-        font-family: 'Roboto', sans-serif;
-        margin: unset;
-    }
-`;
 
 const StyledCell = styled.div`
     font-size: 2em;
@@ -111,7 +104,6 @@ function marketplace() {
 
   return (
     <>
-      <GlobalStyles />
       <SideNav />
       <Dialog isOpen={isDialogOpen} setState={setIsDialogOpen} />
       <Heading1>Ticket Marketplace</Heading1>
