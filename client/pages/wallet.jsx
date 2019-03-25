@@ -1,19 +1,12 @@
 import React from "react";
 import Link from "next/link";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 import { FixedSizeList as List } from "react-window";
 import PropTypes from "prop-types";
 
 import { tickets } from "../Data";
 import SideNav from "../components/layout";
 
-const GlobalStyles = createGlobalStyle`
-    body {
-        @import url('https://fonts.googleapis.com/css?family=Roboto');
-        font-family: 'Roboto', sans-serif;
-        margin: unset;
-    }
-`;
 
 const StyledCell = styled.div`
     font-size: 2em;
@@ -44,15 +37,6 @@ const BottomRow = styled.div`
 
 const GridContainer = styled.div`
   margin: auto;
-`;
-
-const Background = styled.div`
-    font-size: 1.5em;    
-    text-align: center;
-    color: white;
-    width: 100vw;
-    height 100vh;
-    background: linear-gradient(180deg, #231A59 0%, rgba(255, 255, 255, 0) 100%), #4124EE;
 `;
 
 const Heading1 = styled.h1`
@@ -99,8 +83,7 @@ function wallet() {
   }
 
   return (
-    <Background>
-      <GlobalStyles />
+    <>
       <SideNav />
       <Heading1>Ticket Wallet Overview</Heading1>
       <GridContainer>
@@ -114,7 +97,7 @@ function wallet() {
           {TopCell}
         </List>
       </GridContainer>
-    </Background>
+    </>
   );
 }
 

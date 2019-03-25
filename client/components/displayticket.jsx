@@ -2,32 +2,24 @@ import React from "react";
 import BackIcon from "@material-ui/icons/ArrowBack";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 import Link from "next/link";
 import PropTypes from "prop-types";
 // import Background from '../components/Background.jsx';
 
 import QRCode from "qrcode.react";
-import { tickets } from "../data/Data";
+import { tickets } from "../Data/index";
 
-const GlobalStyles = createGlobalStyle`
-    body {
-        @import url('https://fonts.googleapis.com/css?family=Roboto');
-        font-family: 'Roboto', sans-serif;
-        margin: unset;
-    }
-    `;
 
 const StyledCell = styled.div`
   font-size: 2em;
   color: beige;
-  width: 7em;
-  height: 5em;
+  width: 9em;
   background: #3b3bff;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 3.1em;
+  height: 3em;
   padding-left: 1em;
   padding-right: 1em;
 `;
@@ -65,7 +57,6 @@ const HeaderIcon = styled(BackIcon)`
 // TODO: factor divs out
 const DisplayTicket = ({ id }) => (
   <div>
-    <GlobalStyles />
     <StyledHeader>
       <HeaderButton>
         <Link href="/wallet">
