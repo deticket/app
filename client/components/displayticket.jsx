@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 // import Background from '../components/Background.jsx';
 
 import QRCode from "qrcode.react";
-import { tickets } from "../data/Data";
+import { tickets } from "../Data";
 
 const GlobalStyles = createGlobalStyle`
     body {
