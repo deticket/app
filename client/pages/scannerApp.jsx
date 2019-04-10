@@ -1,52 +1,44 @@
-import React, { Component } from 'react';
-import { Button } from '@material-ui/core';
-import QrReader from 'react-qr-reader';
+import React, { useState } from "react";
+import { Button } from "@material-ui/core";
+
+import dynamic from "next/dynamic";
+
+const QrReader = dynamic({
+  loader: () => import("react-qr-reader")
+});
 
 // it is this library: https://github.com/JodusNodus/react-qr-reader
 // the error has to do with webrtc-adapter module
 
 // if(!config.isServer) { var QrReader = require('react-qr-reader'); }
-class Reader extends Component {
-  // state = {
-  //   result: 'No result'
-  // }
+const Reader = () => {
+  const [scanner, setScannerOpen] = useState(false);
+  const handleScan = data => data;
+  // if (data) {
+  //   this.setState({
+  //     result: data,
+  //   });
 
-  handleScan(data) {
-    const test = data;
-
-    return test;
-    // if (data) {
-    //   this.setState({
-    //     result: data,
-    //   });
-  }
-
-  handleError(err) {
+  const handleError = err => {
     console.error(err);
-  }
+  };
 
-  openScanner() {
-    return (
-      <QrReader
-        delay={300}
-        onError={this.handleError}
-        onScan={this.handleScan}
-        style={{ width: '100%' }}
-      />
-    );
-  }
+  const openScanner = () => (
+    <QrReader
+      delay={300}
+      onError={handleError}
+      onScan={handleScan}
+      style={{ width: "100%" }}
+    />
+  );
 
-  render() {
-    return (
-      <div>
-
-        <Button onClick={this.openScanner}>
-        Click to Scan
-        </Button>
-        {/* <p>{this.state.result}</p> */}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Button onClick={() => setScannerOpen(!scanner)}>Click to Scan</Button>
+      {console.log(scanner)}
+      {scanner == true && openScanner}
+    </div>
+  );
+};
 
 export default Reader;
