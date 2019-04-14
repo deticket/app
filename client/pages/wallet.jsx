@@ -1,24 +1,24 @@
-import React from "react";
-import Link from "next/link";
-import styled from "styled-components";
-import { FixedSizeList as List } from "react-window";
-import PropTypes from "prop-types";
+import React from 'react';
+import Link from 'next/link';
+import styled from 'styled-components';
+import { FixedSizeList as List } from 'react-window';
+import PropTypes from 'prop-types';
 
-import { tickets } from "../Data";
-import SideNav from "../components/layout";
+import { tickets } from '../Data';
+import SideNav from '../components/layout';
 
 
 const StyledCell = styled.div`
-    font-size: 2em;
+    font-size: 1em;
     text-align: center;
     color: white;
-    height: 6em;
+    height: 8em;
     background: transparent
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    border: 4px solid white;
-    border-radius: 10px;
+    border: 2px solid white;
+    border-radius: 5px;
     display: flex;
 `;
 
@@ -41,10 +41,11 @@ const GridContainer = styled.div`
 
 const Heading1 = styled.h1`
   height: 3em;
-  font-size: 5em;
+  font-size: 3em;
   font-weight: lighter;
 `;
 
+// TODO: Query data from the chain
 function getData(i) {
   const id = i;
   const ticketName = tickets[i].eventName;
@@ -57,7 +58,7 @@ function getData(i) {
     id,
     ticketName,
     date,
-    ticketPrice
+    ticketPrice,
   };
 }
 
@@ -67,7 +68,10 @@ const TopCell = ({ index, style }) => (
       <StyledCell>
         <TopRow>
           <div>{tickets[index].eventName}</div>
-          <div>{tickets[index].price.toFixed(2)}€</div>
+          <div>
+            {tickets[index].price.toFixed(2)}
+€
+          </div>
         </TopRow>
         <BottomRow>{tickets[index].date}</BottomRow>
       </StyledCell>
@@ -75,7 +79,6 @@ const TopCell = ({ index, style }) => (
   </div>
 );
 
-// TODO: change fonts, put table logic in another component
 function wallet() {
   const rows = [];
   for (let i = 0; i < tickets.length; i += 1) {
@@ -89,10 +92,10 @@ function wallet() {
       <GridContainer>
         <List
           itemCount={tickets.length}
-          itemSize={350}
+          itemSize={150}
           height={tickets.length * 350}
-          width={800}
-          style={{ margin: "0 auto 0 auto" }}
+          width={300}
+          style={{ margin: '0 auto 0 auto' }}
         >
           {TopCell}
         </List>
@@ -103,12 +106,12 @@ function wallet() {
 
 TopCell.propTypes = {
   index: PropTypes.number,
-  style: PropTypes.objectOf(PropTypes.any)
+  style: PropTypes.objectOf(PropTypes.any),
 };
 
 TopCell.defaultProps = {
   index: 1,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 export default wallet;

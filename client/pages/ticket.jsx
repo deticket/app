@@ -1,11 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withRouter } from "next/router";
-// import Background from '../components/Background.jsx';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'next/router';
 
 // import { createGlobalStyle } from "styled-components";
 
-import Ticket from "../components/displayticket";
+import Ticket from '../components/displayticket';
 
 function DisplayTicket(props) {
   const { router } = props;
@@ -18,11 +17,11 @@ function DisplayTicket(props) {
 }
 
 DisplayTicket.propTypes = {
-  router: PropTypes.objectOf(PropTypes.any)
+  router: PropTypes.objectOf(PropTypes.any),
 };
 
 DisplayTicket.defaultProps = {
-  router: PropTypes.object
+  router: PropTypes.object,
 };
 
 export default withRouter(DisplayTicket);

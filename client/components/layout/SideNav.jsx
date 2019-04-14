@@ -10,7 +10,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 const StyledCell = styled.div`
-    font-size: 4em;
+    font-size: 1.5em;
     text-align: center;
     color: white;
     width: 50vw;
@@ -27,7 +27,7 @@ const StyledHeader = styled.header`
     justify-content: flex-start; 
     margin: auto;
     display: flex;
-    height: 12em;
+    height: 8em;
 `;
 
 const HeaderButton = styled(Button)`

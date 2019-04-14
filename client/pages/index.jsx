@@ -1,17 +1,17 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import styled from "styled-components";
-import Link from "next/link";
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import styled from 'styled-components';
+import Link from 'next/link';
 
 const LandingButton = styled(Button)`
   && {
     color: white;
     border: 1px solid white;
     margin-top: 7%;
-    width: 15em;
-    height: 3em;
-    border-radius: 10px;
-    font-size: 2em;
+    width: 16em;
+    height: 3.5em;
+    border-radius: 3px;
+    font-size: 1em;
     background-color: transparent;
   }
 `;

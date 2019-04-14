@@ -26,15 +26,14 @@ const BottomContainer = styled.div`
 
 const CloseIcon = styled(Close)`
     && {
-      width: 2em;
-      height: 2em;
+      width: 1em;
+      height: 1em;
     }
 `;
 
 const CloseButton = styled(Button)`
     && {
-    height: 2em;
-    font-size: 2em;
+    font-size: 1em;
     color: black;
     background: white;
     }
@@ -42,15 +41,15 @@ const CloseButton = styled(Button)`
 
 const BuyButton = styled(Button)`
     && {
-      font-size: 3em; 
+      font-size: 2em; 
       width: 3em;
-      height: 3em;
+      height: 2em;
     }
 `;
 
 const StyledMenuItem = styled(MenuItem)`
     && {
-    font-size: 4em; 
+    font-size: 2em; 
     height: 2em;
     text-align: end;
     }
@@ -58,8 +57,9 @@ const StyledMenuItem = styled(MenuItem)`
 
 const StyledSelect = styled(Select)`
     && {
-    font-size: 5em; 
+    font-size: 2em; 
     width: 2em;
+    height: 2em;
     color: black;
     text-align: end;
     }
@@ -67,7 +67,7 @@ const StyledSelect = styled(Select)`
 
 const StyledDialogContentText = styled(DialogContentText)`
   && {
-    font-size: 3em; 
+    font-size: 1.5em; 
     margin-bottom: 2em;
   }
 `;
