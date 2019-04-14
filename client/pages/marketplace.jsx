@@ -111,7 +111,7 @@ function marketplace() {
         <List
           itemCount={events.length}
           itemSize={150}
-          height={events.length * 450}
+          height={events.length * 150}
           width={350}
           style={{ margin: '0 auto 0 auto' }}
         >

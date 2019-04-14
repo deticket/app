@@ -93,7 +93,7 @@ function wallet() {
         <List
           itemCount={tickets.length}
           itemSize={150}
-          height={tickets.length * 350}
+          height={tickets.length * 150}
           width={300}
           style={{ margin: '0 auto 0 auto' }}
         >

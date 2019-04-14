@@ -16,7 +16,7 @@ const Background = styled.div`
     text-align: center;
     color: white;
     width: 100vw;
-    height 100vh;
+    min-height 100vh;
     background: linear-gradient(180deg, #231A59 0%, rgba(255, 255, 255, 0) 100%), #4124EE;
     z-index: -1;
 `;

@@ -66,7 +66,7 @@ const DisplayTicket = ({ id }) => (
     </StyledHeader>
     <QRCode
       value={tickets[id].eventName}
-      size="15em"
+      size={250}
       bgColor="#ffffff"
       fgColor="#000000"
       level="L"
