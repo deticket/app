@@ -10,12 +10,12 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 const StyledCell = styled.div`
-    font-size: 4em;
+    font-size: 1.5em;
     text-align: center;
     color: white;
     width: 50vw;
     height: 10em;
-    background: #231A59;
+    background: transparent;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -27,7 +27,7 @@ const StyledHeader = styled.header`
     justify-content: flex-start; 
     margin: auto;
     display: flex;
-    height: 12em;
+    height: 8em;
 `;
 
 const HeaderButton = styled(Button)`
@@ -82,7 +82,7 @@ const HeaderIcon = styled(MenuIcon)`
 const StyledDrawer = styled(Drawer)`
     & > div {
     width: 50%;
-    background: #231A59;
+    background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
     }
 `;
 

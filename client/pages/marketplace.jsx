@@ -1,26 +1,26 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 // import TextField from '@material-ui/core/TextField';
-import { FixedSizeList as List } from "react-window";
-import Button from "@material-ui/core/Button";
-import PropTypes from "prop-types";
+import { FixedSizeList as List } from 'react-window';
+import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 
-import { events } from "../Data";
-import SideNav from "../components/layout";
-import Dialog from "../components/purchaseDialog";
+import { events } from '../Data';
+import SideNav from '../components/layout';
+import Dialog from '../components/purchaseDialog';
 
 
 const StyledCell = styled.div`
-    font-size: 2em;
+    font-size: 1em;
     text-align: center;
     color: white;
     height: 8em;
-    background: transparent
+    background: rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    border: 4px solid white;
-    border-radius: 10px;
+    border: 2px solid white;
+    border-radius: 5px;
     display: flex;
     margin-left: 5%;
     margin-right: 5%;
@@ -40,7 +40,7 @@ const GridContainer = styled.div`
 
 const TestButton = styled(Button)`
   && {
-    height: 2em;
+    height: 2.2em;
     width: 100%;
     font-size: 1em;
     color: black;
@@ -50,7 +50,7 @@ const TestButton = styled(Button)`
 
 const Heading1 = styled.h1`
   height: 3em;
-  font-size: 5em;
+  font-size: 3em;
 `;
 
 function createData(i) {
@@ -65,7 +65,7 @@ function createData(i) {
     id,
     ticketName,
     date,
-    ticketPrice
+    ticketPrice,
   };
 }
 function marketplace() {
@@ -79,8 +79,8 @@ function marketplace() {
           <div>{events[index].eventDetails.location}</div>
         </TopPart>
         <TestButton onClick={() => setIsDialogOpen(true)}>
-          {`Buy Tickets (${events[index].ticketData.totalTickets -
-            events[index].ticketData.ticketsSold} left)`}
+          {`Buy Tickets (${events[index].ticketData.totalTickets
+            - events[index].ticketData.ticketsSold} left)`}
         </TestButton>
       </StyledCell>
     </div>
@@ -88,12 +88,12 @@ function marketplace() {
 
   TopCell.propTypes = {
     index: PropTypes.string,
-    style: PropTypes.objectOf(PropTypes.object)
+    style: PropTypes.objectOf(PropTypes.object),
   };
 
   TopCell.defaultProps = {
     index: PropTypes.string,
-    style: PropTypes.object
+    style: PropTypes.object,
   };
 
   const rows = [];
@@ -110,10 +110,10 @@ function marketplace() {
       <GridContainer>
         <List
           itemCount={events.length}
-          itemSize={450}
-          height={events.length * 450}
-          width={800}
-          style={{ margin: "0 auto 0 auto" }}
+          itemSize={150}
+          height={events.length * 150}
+          width={350}
+          style={{ margin: '0 auto 0 auto' }}
         >
           {TopCell}
         </List>

@@ -1,18 +1,18 @@
-import React from "react";
-import BackIcon from "@material-ui/icons/ArrowBack";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import styled from "styled-components";
-import Link from "next/link";
-import PropTypes from "prop-types";
+import React from 'react';
+import BackIcon from '@material-ui/icons/ArrowBack';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import styled from 'styled-components';
+import Link from 'next/link';
+import PropTypes from 'prop-types';
 // import Background from '../components/Background.jsx';
 
-import QRCode from "qrcode.react";
-import { tickets } from "../Data";
+import QRCode from 'qrcode.react';
+import { tickets } from '../Data';
 
 
 const StyledCell = styled.div`
-  font-size: 2em;
+  font-size: 1em;
   color: beige;
   width: 9em;
   background: #3b3bff;
@@ -32,7 +32,7 @@ const StyledHeader = styled.header`
   justify-content: flex-start;
   margin: auto;
   display: flex;
-  height: 12em;
+  height: 8em;
   font-family: "arial";
 `;
 
@@ -66,7 +66,7 @@ const DisplayTicket = ({ id }) => (
     </StyledHeader>
     <QRCode
       value={tickets[id].eventName}
-      size="25em"
+      size={250}
       bgColor="#ffffff"
       fgColor="#000000"
       level="L"
@@ -77,18 +77,18 @@ const DisplayTicket = ({ id }) => (
     <GridContainer>
       <Paper
         style={{
-          margin: "5em auto 0 auto",
-          color: "black",
-          background: "transparent"
+          margin: '5em auto 0 auto',
+          color: 'black',
+          background: 'transparent',
         }}
       >
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <div style={{ textAlign: "left" }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ textAlign: 'left' }}>
             <StyledCell>Event Name:</StyledCell>
             <StyledCell>Date:</StyledCell>
             <StyledCell>Price:</StyledCell>
           </div>
-          <div style={{ textAlign: "right" }}>
+          <div style={{ textAlign: 'right' }}>
             <StyledCell>{tickets[id].eventName}</StyledCell>
             <StyledCell>{tickets[id].date}</StyledCell>
             <StyledCell>{`${tickets[id].price.toFixed(2)} €`}</StyledCell>
@@ -100,18 +100,18 @@ const DisplayTicket = ({ id }) => (
       <GridContainer>
         <Paper
           style={{
-            margin: "5em auto 0 auto",
-            color: "black",
-            background: "transparent"
+            margin: '2em auto 0 auto',
+            color: 'black',
+            background: 'transparent',
           }}
         >
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <div style={{ textAlign: "left" }}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{ textAlign: 'left' }}>
               <StyledCell>Block:</StyledCell>
               <StyledCell>Row:</StyledCell>
               <StyledCell>Seat:</StyledCell>
             </div>
-            <div style={{ textAlign: "right" }}>
+            <div style={{ textAlign: 'right' }}>
               <StyledCell>{tickets[id].block}</StyledCell>
               <StyledCell>{tickets[id].row}</StyledCell>
               <StyledCell>{tickets[id].seat}</StyledCell>
@@ -124,11 +124,11 @@ const DisplayTicket = ({ id }) => (
 );
 
 DisplayTicket.propTypes = {
-  id: PropTypes.string
+  id: PropTypes.string,
 };
 
 DisplayTicket.defaultProps = {
-  id: PropTypes.objectOf(PropTypes.string)
+  id: PropTypes.objectOf(PropTypes.string),
 };
 
 export default DisplayTicket;

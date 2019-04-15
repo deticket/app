@@ -12,11 +12,11 @@
 .App-header {
   height: 10vh;
   color: white;
-  /* background: red !important; */
+  background: red !important; 
 }
 
 .App-main{
-  /* background: linear-gradient(180deg, #231A59 0%, rgba(255, 255, 255, 0) 100%), #4124EE; */
+   background: linear-gradient(180deg, #231A59 0%, rgba(255, 255, 255, 0) 100%), #4124EE; 
   min-height: 90vh;
   display: flex;
   flex-direction: column;

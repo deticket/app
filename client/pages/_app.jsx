@@ -1,7 +1,7 @@
-import React from "react";
-import App, { Container } from "next/app";
-import styled, { createGlobalStyle } from "styled-components";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import React from 'react';
+import App, { Container } from 'next/app';
+import styled, { createGlobalStyle } from 'styled-components';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const GlobalStyles = createGlobalStyle`
     body {
@@ -12,12 +12,12 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const Background = styled.div`
-    font-size: 1.5em;
+    font-size: 1em;
     text-align: center;
     color: white;
     width: 100vw;
-    height 100vh;
-    background: linear-gradient(180deg, #231A59 0%, rgba(255, 255, 255, 0) 100%), #4124EE;
+    min-height 100vh;
+    background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
     z-index: -1;
 `;
 
