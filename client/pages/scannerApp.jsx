@@ -1,18 +1,10 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import styled, { createGlobalStyle } from 'styled-components';
 import Check from '@material-ui/icons/CheckCircleOutline';
 import Alert from '@material-ui/icons/Close';
 
 import dynamic from "next/dynamic";
-
-const GlobalStyles = createGlobalStyle`
-    body {
-        @import url('https://fonts.googleapis.com/css?family=Roboto');
-        font-family: 'Roboto', sans-serif;
-        margin: unset;
-    }
-`;
 
 const ScanButton = styled(Button)`
 && {
@@ -91,10 +83,10 @@ const RedBackground = styled.div`
     background: linear-gradient(180deg, red 0%, rgba(255, 255, 255, 0) 100%), white;
 `;
 
-
-const QrReader = dynamic({
-  loader: () => import("react-qr-reader")
+const QrReader = dynamic(() => import("react-qr-reader"), {
+  ssr: false
 });
+
 
 // it is this library: https://github.com/JodusNodus/react-qr-reader
 // the error has to do with webrtc-adapter module
@@ -102,7 +94,7 @@ const QrReader = dynamic({
 const Reader = () => {
   const [scanner, setScannerOpen] = useState(false);
   const [scanStatus, setScanStatus] = useState('default');
-
+  
   const handleScan = data => {
     data;
     console.log("scanned:", data);
@@ -117,7 +109,7 @@ const Reader = () => {
       rejectTicket();
     }
   };
-
+  
   // displays "approved ticket" screen for 2s
   function approveTicket() {
     setScanStatus('approved');
@@ -139,17 +131,20 @@ const Reader = () => {
   };
 
   // opens QR-Code Reader
-  const openScanner = () => (
+  const openScanner = () => {
+    // await QrReader()
+    return(
     <QrReader
       delay={300}
       onError={handleError}
       onScan={handleScan}
       style={{ width: "100%", width: '100%' }}
-    />
-  );
+    />)
+  };
 
   return (
-    <div>
+  <>
+    {process.browser && <div>
       {scanStatus === 'default' && (
         <div>
           <div style={{ height: "24em" }}>
@@ -185,7 +180,8 @@ const Reader = () => {
         </RedBackground>
       )}
 
-    </div>
+    </div>}
+    </>
   );
 };
 

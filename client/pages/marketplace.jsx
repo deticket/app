@@ -15,7 +15,7 @@ const StyledCell = styled.div`
     text-align: center;
     color: white;
     height: 8em;
-    background: transparent
+    background: rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     justify-content: space-around;

@@ -13,11 +13,10 @@ const StyledCell = styled.div`
     text-align: center;
     color: white;
     height: 8em;
-    background: transparent
+    background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    border: 2px solid white;
     border-radius: 5px;
     display: flex;
 `;

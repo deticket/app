@@ -15,7 +15,7 @@ const StyledCell = styled.div`
     color: white;
     width: 50vw;
     height: 10em;
-    background: #231A59;
+    background: transparent;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -82,7 +82,7 @@ const HeaderIcon = styled(MenuIcon)`
 const StyledDrawer = styled(Drawer)`
     & > div {
     width: 50%;
-    background: #231A59;
+    background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
     }
 `;
 
