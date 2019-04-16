@@ -1,21 +1,25 @@
 import { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
-import styled, { createGlobalStyle } from 'styled-components';
-import Check from '@material-ui/icons/CheckCircleOutline';
-import Alert from '@material-ui/icons/Close';
+import styled, { createGlobalStyle } from "styled-components";
+import Check from "@material-ui/icons/CheckCircleOutline";
+import Alert from "@material-ui/icons/Close";
 
 import dynamic from "next/dynamic";
 
+const QrReader = dynamic(() => import("react-qr-reader"), {
+  ssr: false
+});
+
 const ScanButton = styled(Button)`
-&& {
-  height: 6em;
-  width: 6em;
-  color: white;
-  border: 4px solid white;
-  border-radius: 5px;
-  font-size: 2em;
-  margin-top: 2em;
-}
+  && {
+    height: 6em;
+    width: 6em;
+    color: white;
+    border: 4px solid white;
+    border-radius: 5px;
+    font-size: 2em;
+    margin-top: 2em;
+  }
 `;
 
 const Heading1 = styled.h1`
@@ -83,18 +87,10 @@ const RedBackground = styled.div`
     background: linear-gradient(180deg, red 0%, rgba(255, 255, 255, 0) 100%), white;
 `;
 
-const QrReader = dynamic(() => import("react-qr-reader"), {
-  ssr: false
-});
-
-
-// it is this library: https://github.com/JodusNodus/react-qr-reader
-// the error has to do with webrtc-adapter module
-
 const Reader = () => {
   const [scanner, setScannerOpen] = useState(false);
-  const [scanStatus, setScanStatus] = useState('default');
-  
+  const [scanStatus, setScanStatus] = useState("default");
+
   const handleScan = data => {
     data;
     console.log("scanned:", data);
@@ -109,20 +105,20 @@ const Reader = () => {
       rejectTicket();
     }
   };
-  
+
   // displays "approved ticket" screen for 2s
   function approveTicket() {
-    setScanStatus('approved');
+    setScanStatus("approved");
     setTimeout(() => {
-      setScanStatus('default');
+      setScanStatus("default");
     }, 2000);
   }
 
   // displays "rejected ticket" screen for 2s
   function rejectTicket() {
-    setScanStatus('denied');
+    setScanStatus("denied");
     setTimeout(() => {
-      setScanStatus('default');
+      setScanStatus("default");
     }, 2000);
   }
 
@@ -133,54 +129,54 @@ const Reader = () => {
   // opens QR-Code Reader
   const openScanner = () => {
     // await QrReader()
-    return(
-    <QrReader
-      delay={300}
-      onError={handleError}
-      onScan={handleScan}
-      style={{ width: "100%", width: '100%' }}
-    />)
+    return (
+      <QrReader
+        delay={300}
+        onError={handleError}
+        onScan={handleScan}
+        style={{ width: "100%", width: "100%" }}
+      />
+    );
   };
 
   return (
-  <>
-    {process.browser && <div>
-      {scanStatus === 'default' && (
+    <>
+      {process.browser && (
         <div>
-          <div style={{ height: "24em" }}>
-            {scanner && openScanner()}             
-            { !scanner && 
-              // TODO: Query Event Name
-              <Heading1> 
-                Welcome to Event 123
-              </Heading1>
-            }
-          </div>
-          <ScanButton onClick={() => setScannerOpen(!scanner)}>
-            {scanner ? "Tap to Close" : "Tap to Scan"}
-          </ScanButton>
+          {scanStatus === "default" && (
+            <div>
+              <div style={{ height: "24em" }}>
+                {scanner && openScanner()}
+                {!scanner && (
+                  // TODO: Query Event Name
+                  <Heading1>Welcome to Event 123</Heading1>
+                )}
+              </div>
+              <ScanButton onClick={() => setScannerOpen(!scanner)}>
+                {scanner ? "Tap to Close" : "Tap to Scan"}
+              </ScanButton>
+            </div>
+          )}
+          {scanStatus === "approved" && (
+            <GreenBackground>
+              <GlobalStyles />
+              <Container>
+                <CheckIcon />
+                <MessageGreen>ACCESS APPROVED</MessageGreen>
+              </Container>
+            </GreenBackground>
+          )}
+          {scanStatus === "denied" && (
+            <RedBackground>
+              <GlobalStyles />
+              <Container>
+                <AlertIcon />
+                <MessageRed>ACCESS DENIED</MessageRed>
+              </Container>
+            </RedBackground>
+          )}
         </div>
       )}
-      {scanStatus === 'approved' && (
-        <GreenBackground>
-          <GlobalStyles />
-          <Container>
-            <CheckIcon />
-            <MessageGreen>ACCESS APPROVED</MessageGreen>
-          </Container>
-        </GreenBackground>
-      )}
-      {scanStatus === 'denied' && (
-        <RedBackground>
-          <GlobalStyles />
-          <Container>
-            <AlertIcon />
-            <MessageRed>ACCESS DENIED</MessageRed>
-          </Container>
-        </RedBackground>
-      )}
-
-    </div>}
     </>
   );
 };

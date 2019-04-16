@@ -16,5 +16,8 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": { "class-methods-use-this": 0 }
+  "rules": {
+    "class-methods-use-this": 0,
+    "quotes": [2, "single", { "avoidEscape": true }]
+  }
 }

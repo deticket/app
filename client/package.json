@@ -14,7 +14,8 @@
     "react-dom": "^16.8.6",
     "react-qr-reader": "^2.2.1",
     "react-window": "^1.7.1",
-    "styled-components": "^4.2.0"
+    "styled-components": "^4.2.0",
+    "styled-jsx": "^3.2.1"
   },
   "scripts": {
     "test": "react-scripts test",
@@ -22,9 +23,6 @@
     "dev": "next",
     "build": "next build",
     "start": "next start"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": [
     ">0.2%",
@@ -36,7 +34,6 @@
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4"
+    "eslint-plugin-jsx-a11y": "^6.2.1"
   }
 }
