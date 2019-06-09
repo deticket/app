@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import styled, { createGlobalStyle } from 'styled-components';
-import Check from '@material-ui/icons/CheckCircleOutline';
-import Alert from '@material-ui/icons/Close';
 
 import dynamic from "next/dynamic";
+
+import ticketList from '../Data/ticketList.json';
+
+import ApproveScreen from "../components/ApproveScreen.jsx";
+import RejectScreen from "../components/RejectScreen.jsx";
 
 const ScanButton = styled(Button)`
 && {
@@ -14,8 +17,17 @@ const ScanButton = styled(Button)`
   border: 4px solid white;
   border-radius: 5px;
   font-size: 2em;
-  margin-top: 2em;
+  margin-top: 3em;
 }
+`;
+
+const ScannerHeader = styled.div`
+  height: 10vh;
+  background: rgba(000,999,99,0.4);
+  font-size: 1.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 `;
 
 const Heading1 = styled.h1`
@@ -27,86 +39,42 @@ const Heading1 = styled.h1`
   align-items: center;
 `;
 
-const CheckIcon = styled(Check)`
-  && {
-    height: 15em;
-    width: 15em;
-  }
-`;
-
-const AlertIcon = styled(Alert)`
-  && {
-    height: 15em;
-    width: 15em;
-  }
-`;
-
-const Container = styled.div`
-  font-size: 1.5em;
-  text-align: center;
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-`;
-
-const MessageRed = styled.div`
-    font-size: 1.5em;
-    text-align: center;
-    color: red;
-    width: 5em;
-    height 3em;
-    background: transparent;
-`;
-
-const MessageGreen = styled.div`
-    font-size: 1.5em;
-    text-align: center;
-    color: green;
-    width: 5em;
-    height 3em;
-    background: transparent;
-`;
-
-const GreenBackground = styled.div`
-    color: white;
-    width: 100vw;
-    height 100vh;
-    background: linear-gradient(180deg, green 0%, rgba(255, 255, 255, 0) 100%), white;
-`;
-
-const RedBackground = styled.div`
-    color: white;
-    width: 100vw;
-    height 100vh;
-    background: linear-gradient(180deg, red 0%, rgba(255, 255, 255, 0) 100%), white;
-`;
-
 const QrReader = dynamic(() => import("react-qr-reader"), {
   ssr: false
 });
 
-
-// it is this library: https://github.com/JodusNodus/react-qr-reader
-// the error has to do with webrtc-adapter module
+// getTicketList fetches tickets of an event with eventID from the TicketList JSON 
+// by filtering for the eventID and returns an array of tickets
+// TODO: fetch event tickets for a specific eventID from chain / caching layer
+const getTicketList = (eventID) => {
+  let ticketArray = [];
+  for (let i = 0; i < ticketList.tickets.length; i += 1) {
+    if (ticketList.tickets[i].ParentReference === eventID) {
+      ticketArray.push(ticketList.tickets[i]);
+    }
+  }
+  return ticketArray;
+}
 
 const Reader = () => {
   const [scanner, setScannerOpen] = useState(false);
   const [scanStatus, setScanStatus] = useState('default');
-  
+  // TODO: unhardcode event eventID once front end for organizer exists
+  const [tickets, setTicketList] = useState(getTicketList("1111111"));
+
+  console.log("tics: ", tickets);
+
   const handleScan = data => {
     data;
     console.log("scanned:", data);
-    // TODO: check if data is in array of approved tickets, fetched from the chain
-    // 0x12345 is a hardcoded valid ticket
-    if (data === "0x12345") {
+    // TODO: decrypt data once QR Code generation uses encryption
+
+    // if Ticket is in the ticket array of the event ticket will be approved (or rejected)
+    if (tickets.includes(data)) {
+      console.log("ticketApproved")
+      // TODO: check if Ticket has been used already, if so, show a screen denying entry and error message
+      // rejectTicket();
       approveTicket();
-    }
-    // TODO: if data is a ticket that has already been scanned
-    // 0x99999 is a hardcoded invalid ticket
-    if (data === "0x99999") {
-      rejectTicket();
     }
   };
   
@@ -134,12 +102,18 @@ const Reader = () => {
   const openScanner = () => {
     // await QrReader()
     return(
-    <QrReader
-      delay={300}
-      onError={handleError}
-      onScan={handleScan}
-      style={{ width: "100%", width: '100%' }}
-    />)
+      <>
+        <ScannerHeader>
+          Scanning...
+        </ScannerHeader>
+        <QrReader
+          delay={300}
+          onError={handleError}
+          onScan={handleScan}
+          style={{ width: "100%" }}
+        />
+      </>
+    )
   };
 
   return (
@@ -162,22 +136,10 @@ const Reader = () => {
         </div>
       )}
       {scanStatus === 'approved' && (
-        <GreenBackground>
-          <GlobalStyles />
-          <Container>
-            <CheckIcon />
-            <MessageGreen>ACCESS APPROVED</MessageGreen>
-          </Container>
-        </GreenBackground>
+        <ApproveScreen />
       )}
       {scanStatus === 'denied' && (
-        <RedBackground>
-          <GlobalStyles />
-          <Container>
-            <AlertIcon />
-            <MessageRed>ACCESS DENIED</MessageRed>
-          </Container>
-        </RedBackground>
+        <RejectScreen />
       )}
 
     </div>}

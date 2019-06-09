@@ -12,6 +12,7 @@
     "prop-types": "^15.7.2",
     "qrcode.react": "^0.9.3",
     "react": "^16.8.6",
+    "react-countdown-now": "^2.1.0",
     "react-dom": "^16.8.6",
     "react-qr-reader": "^2.2.1",
     "react-window": "^1.7.1",

@@ -1,8 +1,13 @@
 {
   "users": [{
-    "name": "user1234",
+    "name": "user1",
     "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
-    "userID": "11223344",
+    "userID": "1111",
+    "role": "user"
+  }, {
+    "name": "user2",
+    "password": "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0",
+    "userID": "2222",
     "role": "user"
   }, {
     "name": "organizer",

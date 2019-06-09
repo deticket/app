@@ -10,8 +10,8 @@ function DisplayTicket(props) {
   const { router } = props;
   return (
     <>
-      <Ticket id={router.query.id} />
-      {console.log(`id is: ${router.query.id}`)}
+      <Ticket ticketIDFromRoute={router.query.ticketID} userIDfromRoute={router.query.user} />
+      {console.log(`id is: ${router.query.ticketID}`)}
     </>
   );
 }

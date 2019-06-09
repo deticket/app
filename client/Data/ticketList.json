@@ -1,0 +1,39 @@
+{
+  "tickets": [{
+    "TicketID":        "0001",
+    "OwnerName":       "1111",
+    "OwnerAddress":    "0x122",
+    "ParentReference": "1111111",
+    "InitialPrice":    "49.50",
+    "TicketNumber":    "001",
+    "TotalTickets":    "10000",
+    "MarkUpAllowed":   "20",
+    "Resale":          "true",
+    "ResaleCounter":   "0",
+    "Price":           "49.50"
+  }, {
+    "TicketID":        "0002",
+    "OwnerName":       "1111",
+    "OwnerAddress":    "0x122",
+    "ParentReference": "3333333",
+    "InitialPrice":    "0",
+    "TicketNumber":    "1",
+    "TotalTickets":    "100",
+    "MarkUpAllowed":   "0",
+    "Resale":          "true",
+    "ResaleCounter":   "0",
+    "Price":           "0"
+  }, {
+    "TicketID":        "0003",
+    "OwnerName":       "3333",
+    "OwnerAddress":    "0x333",
+    "ParentReference": "2222222",
+    "InitialPrice":    "20.00",
+    "TicketNumber":    "1",
+    "TotalTickets":    "2000",
+    "MarkUpAllowed":   "0",
+    "Resale":          "resale",
+    "ResaleCounter":   "0",
+    "Price":           "20.00"
+  }]
+}
