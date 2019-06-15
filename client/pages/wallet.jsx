@@ -8,16 +8,16 @@ import { tickets } from '../Data';
 import SideNav from '../components/layout';
 
 const StyledCell = styled.div`
-  font-size: 1em;
-  text-align: center;
-  color: white;
-  height: 8em;
-  background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  border-radius: 5px;
-  display: flex;
+    font-size: 1em;
+    text-align: center;
+    color: white;
+    height: 8em;
+    background-image: linear-gradient(-20deg, #4169E1 0%, #00008B 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 5px;
+    display: flex;
 `;
 
 const TopRow = styled.div`
@@ -67,9 +67,9 @@ const TopCell = ({ index, style }) => (
         <TopRow>
           <div>{tickets[index].eventName}</div>
           <div>
-{tickets[index].price.toFixed(2)}
+            {tickets[index].price.toFixed(2)}
 €
-</div>
+                    </div>
         </TopRow>
         <BottomRow>{tickets[index].date}</BottomRow>
       </StyledCell>
