@@ -51,16 +51,27 @@ const EmptyHeader = styled.div`
 `;
 
 function Login() {
-  const [loginError, setLoginError] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  // const [loginError, setLoginError] = useState(false);
+  // const [username, setUsername] = useState('');
+  // const [password, setPassword] = useState('');
+  const [form, setValues] = useState({
+    loginError: false,
+    username: '',
+    password: '',
+  });
 
   const changeUsername = (e) => {
-    setUsername(e.target.value);
+    setValues({
+      ...form,
+      username: e.target.value,
+    });
   };
 
   const changePassword = (e) => {
-    setPassword(e.target.value);
+    setValues({
+      ...form,
+      password: e.target.value,
+    });
   };
 
 
@@ -83,16 +94,19 @@ function Login() {
 
 
   const checkForError = () => {
-    if (validateLogin(username, password) === '/') {
+    if (validateLogin(form.username, form.password) === '/') {
       console.log('ERROR');
-      setLoginError(true);
+      setValues({
+        ...form,
+        loginError: true,
+      });
     }
   };
 
   return (
     <>
 
-      {loginError
+      {form.loginError
         ? (
           <ErrorHeader>
         Login Failed - Please try again
@@ -110,7 +124,7 @@ function Login() {
       <StyledTextField
         id="standard-with-placeholder"
         placeholder="Username or Email"
-        value={username}
+        value={form.username}
         // className={classes.textField}
         margin="normal"
         onChange={changeUsername}
@@ -122,10 +136,10 @@ function Login() {
         autoComplete="current-password"
         margin="normal"
         placeholder="Password"
-        value={password}
+        value={form.password}
         onChange={changePassword}
       />
-      <Link href={validateLogin(username, password)}>
+      <Link href={validateLogin(form.username, form.password)}>
         <LandingButton
           onClick={() => checkForError()}
         >
