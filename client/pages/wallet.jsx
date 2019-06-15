@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { FixedSizeList as List } from 'react-window';
@@ -66,6 +66,7 @@ const SubHeading = styled.h1`
 `;
 
 // function getTickets to get all the tickets from the user
+// TODO: fetch data from route once we have a backend
 function getTickets(userIDfromRoute) {
   const userTickets = [];
   for (let i = 0; i < ticketList.tickets.length; i += 1) {
@@ -77,6 +78,7 @@ function getTickets(userIDfromRoute) {
 }
 
 // function getEvents to get all the events of the tickets from the user
+// TODO: fetch data from route once we have a backend
 function getEvents(userIDfromRoute) {
   const userEvents = [];
   const userTickets = getTickets(userIDfromRoute);
@@ -89,14 +91,18 @@ function getEvents(userIDfromRoute) {
   }
   return userEvents;
 }
-// TODO?: add state variable (with usestate) for list of current tickets
-function wallet({ query }) {
-  // takes 'user' paramter from route and queries the tickets for that user
-  const userTickets = getTickets(query.user);
-  console.log('tix:', userTickets);
-  const userEvents = getEvents(query.user);
-  console.log('evt:', userEvents);
 
+function wallet({ query }) {
+  const [userTickets, setUserTickets] = useState([]);
+  const [userEvents, setUserEvents] = useState([]);
+
+  // takes 'user' paramter from route and queries the tickets for that user on first render
+  useEffect(() => {
+    setUserTickets(getTickets(query.user));
+    setUserEvents(getEvents(query.user));
+    console.log('tix:', userTickets);
+    console.log('evt:', userEvents);
+  }, []);
 
   const TopCell = ({ index, style }) => {
     console.log('index: ', index);
