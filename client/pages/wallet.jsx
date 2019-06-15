@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { tickets } from '../Data';
 import SideNav from '../components/layout';
 
-
 const StyledCell = styled.div`
     font-size: 1em;
     text-align: center;
@@ -48,8 +47,8 @@ const Heading1 = styled.h1`
 function getData(i) {
   const id = i;
   const ticketName = tickets[i].eventName;
-  console.log(tickets[i]);
-  console.log(tickets[i].eventName);
+  // console.log(tickets[i]);
+  // console.log(tickets[i].eventName);
   const { date } = tickets[i];
   const ticketPrice = tickets[i].price;
 
@@ -70,7 +69,7 @@ const TopCell = ({ index, style }) => (
           <div>
             {tickets[index].price.toFixed(2)}
 €
-          </div>
+                    </div>
         </TopRow>
         <BottomRow>{tickets[index].date}</BottomRow>
       </StyledCell>
