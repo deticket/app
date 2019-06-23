@@ -68,7 +68,7 @@ function createData(i) {
     ticketPrice,
   };
 }
-function marketplace() {
+function marketplace({ query }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const TopCell = ({ index, style }) => (
     <div style={style}>
@@ -104,7 +104,7 @@ function marketplace() {
 
   return (
     <>
-      <SideNav />
+      <SideNav userID={query.user} />
       <Dialog isOpen={isDialogOpen} setState={setIsDialogOpen} />
       <Heading1>Ticket Marketplace</Heading1>
       <GridContainer>
@@ -123,3 +123,5 @@ function marketplace() {
 }
 
 export default marketplace;
+
+marketplace.getInitialProps = ({ query }) => ({ query });

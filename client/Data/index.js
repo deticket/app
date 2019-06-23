@@ -1,6 +1,6 @@
 const ticket1 = {
   eventName: 'Concert Fantasy Band',
-  date: '12/03/2019',
+  date: '12/03/2019, 8:30 pm',
   location: 'Fantasy Arena, Berlin',
   block: 'A4',
   row: '12',
@@ -9,18 +9,8 @@ const ticket1 = {
 };
 
 const ticket2 = {
-  eventName: 'Hertha BSC - League',
-  date: '15/03/2019',
-  location: 'Olympia Stadion, Berlin',
-  block: 'B4',
-  row: '7',
-  seat: '9',
-  price: 12.50,
-};
-
-const ticket3 = {
   eventName: 'Cosmos Meetup',
-  date: '19/03/2019',
+  date: '19/03/2019,, 6:00 pm',
   location: 'Mindspace, Berlin',
   price: 0,
 };
@@ -87,7 +77,8 @@ const event3 = {
   },
 };
 
-const tickets = [ticket1, ticket2, ticket3];
+const tickets = [ticket1, ticket2];
+const tickets2 = [];
 const events = [event1, event2, event3];
 
-export { tickets, events };
+export { tickets, tickets2, events };

@@ -93,19 +93,19 @@ const StyledDivider = styled(Divider)`
     }
 `;
 
-function SideNav() {
+function SideNav({ userID }) {
   // state of the SideNav (open/closed); default: closed
   const [isOpen, setIsOpen] = useState(false);
 
   const sideNav = (
     <div>
-      <Link href="/wallet">
+      <Link href={`/wallet?user=${userID}`}>
         <StyledCell>
           <WalletIcon />
             Wallet
         </StyledCell>
       </Link>
-      <Link href="/marketplace">
+      <Link href={`/marketplace?user=${userID}`}>
         <StyledCell>
           <CreditCardIcon />
             Market
@@ -120,7 +120,6 @@ function SideNav() {
       </Link>
     </div>
   );
-
 
   return (
     <div>

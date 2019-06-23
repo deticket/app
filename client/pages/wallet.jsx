@@ -1,22 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { FixedSizeList as List } from 'react-window';
 import PropTypes from 'prop-types';
 
-import { tickets } from '../Data';
 import SideNav from '../components/layout';
+import eventList from '../Data/eventList.json';
+import ticketList from '../Data/ticketList.json';
 
 const StyledCell = styled.div`
     font-size: 1em;
     text-align: center;
-    color: white;
-    height: 8em;
-    background-image: linear-gradient(-20deg, #4169E1 0%, #00008B 100%);
+    color: black;
+    height: 6em;
+    background: rgba(999,999,999,0.8);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    border-radius: 5px;
+    border-radius: 6px 6px 0px 0px;
+    display: flex;
+`;
+
+const ColoredCell = styled.div`
+    font-size: 1.25em;
+    text-align: center;
+    color: white;
+    height: 2.5em;
+    background: #16043E;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 0px 0px 6px 6px;
     display: flex;
 `;
 
@@ -38,78 +52,124 @@ const GridContainer = styled.div`
 `;
 
 const Heading1 = styled.h1`
-  height: 3em;
+  height: 0.5em;
   font-size: 3em;
-  font-weight: lighter;
+  font-weight: normal;
 `;
 
-// TODO: Query data from the chain
-function getData(i) {
-  const id = i;
-  const ticketName = tickets[i].eventName;
-  // console.log(tickets[i]);
-  // console.log(tickets[i].eventName);
-  const { date } = tickets[i];
-  const ticketPrice = tickets[i].price;
+const SubHeading = styled.h1`
+  height: 1em;
+  font-size: 1em;
+  font-weight: lighter;
+  margin-bottom: 20%;
+`;
 
-  return {
-    id,
-    ticketName,
-    date,
-    ticketPrice,
-  };
+// function getTickets to get all the tickets from the user
+// TODO: fetch data from route once we have a backend
+function getTickets(userIDfromRoute) {
+  const userTickets = [];
+  for (let i = 0; i < ticketList.tickets.length; i += 1) {
+    if (ticketList.tickets[i].OwnerName === userIDfromRoute) {
+      userTickets.push(ticketList.tickets[i]);
+    }
+  }
+  return userTickets;
 }
 
-const TopCell = ({ index, style }) => (
-  <div style={style}>
-    <Link href={`/ticket?id=${index}`}>
-      <StyledCell>
-        <TopRow>
-          <div>{tickets[index].eventName}</div>
-          <div>
-            {tickets[index].price.toFixed(2)}
-€
-                    </div>
-        </TopRow>
-        <BottomRow>{tickets[index].date}</BottomRow>
-      </StyledCell>
-    </Link>
-  </div>
-);
-
-function wallet() {
-  const rows = [];
-  for (let i = 0; i < tickets.length; i += 1) {
-    rows[i] = getData(i);
+// function getEvents to get all the events of the tickets from the user
+// TODO: fetch data from route once we have a backend
+function getEvents(userIDfromRoute) {
+  const userEvents = [];
+  const userTickets = getTickets(userIDfromRoute);
+  for (let i = 0; i < userTickets.length; i += 1) {
+    for (let j = 0; j < eventList.events.length; j += 1) {
+      if (eventList.events[j].event_ID === userTickets[i].ParentReference) {
+        userEvents.push(eventList.events[j]);
+      }
+    }
   }
+  return userEvents;
+}
 
+function wallet({ query }) {
+  const [userTickets, setUserTickets] = useState([]);
+  const [userEvents, setUserEvents] = useState([]);
+
+  // takes 'user' paramter from route and queries the tickets for that user on first render
+  useEffect(() => {
+    setUserTickets(getTickets(query.user));
+    setUserEvents(getEvents(query.user));
+    console.log('tix:', userTickets);
+    console.log('evt:', userEvents);
+  }, []);
+
+  const TopCell = ({ index, style }) => {
+    console.log('index: ', index);
+    return (
+      <div style={style}>
+        <Link href={`/ticket?user=${query.user}&ticketID=${userTickets[index].TicketID}${userEvents[index].event_ID}`}>
+          <div>
+            <StyledCell>
+              <TopRow>
+                <div>{userEvents[index].event_name }</div>
+                <div>
+                  {`${userTickets[index].InitialPrice} €` }
+                  {/* .toFixed(2)} */}
+                </div>
+              </TopRow>
+              <BottomRow>{userEvents[index].event_details.date}</BottomRow>
+            </StyledCell>
+            <ColoredCell>
+              {userEvents[index].event_name }
+            </ColoredCell>
+          </div>
+        </Link>
+      </div>
+    );
+  };
   return (
     <>
-      <SideNav />
-      <Heading1>Ticket Wallet Overview</Heading1>
+      <SideNav userID={query.user} />
+      <Heading1>My Tickets</Heading1>
+      <SubHeading>
+        {userTickets.length}
+        {' '}
+        Ticket(s) available
+      </SubHeading>
       <GridContainer>
         <List
-          itemCount={tickets.length}
-          itemSize={150}
-          height={tickets.length * 150}
-          width={300}
+          itemCount={userTickets.length}
+          itemSize={170}
+          height={userTickets.length * 170}
+          width="85%"
           style={{ margin: '0 auto 0 auto' }}
         >
           {TopCell}
         </List>
+        <Link href="/marketplace">
+          <StyledCell style={{
+            width: '85%', borderColor: 'white', borderStyle: 'dashed', borderWidth: '2px', background: 'transparent', margin: 'auto', height: '9em',
+          }}
+          >
+            <div style={{ color: 'white' }}>
+              Browse Marketplace for more Tickets
+            </div>
+          </StyledCell>
+        </Link>
       </GridContainer>
     </>
   );
 }
+// TopCell.propTypes = {
+//   index: PropTypes.number,
+//   style: PropTypes.objectOf(PropTypes.any),
+// };
 
-TopCell.propTypes = {
-  index: PropTypes.number,
-  style: PropTypes.objectOf(PropTypes.any),
-};
-
-TopCell.defaultProps = {
-  index: 1,
-  style: PropTypes.object,
-};
+// TopCell.defaultProps = {
+//   index: 1,
+//   style: PropTypes.object,
+// };
 
 export default wallet;
+
+wallet.getInitialProps = ({ query }) => ({ query });
