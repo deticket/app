@@ -77,20 +77,20 @@ const Reader = () => {
       approveTicket();
     }
   };
-  
+
   // displays "approved ticket" screen for 2s
   function approveTicket() {
-    setScanStatus('approved');
+    setScanStatus("approved");
     setTimeout(() => {
-      setScanStatus('default');
+      setScanStatus("default");
     }, 2000);
   }
 
   // displays "rejected ticket" screen for 2s
   function rejectTicket() {
-    setScanStatus('denied');
+    setScanStatus("denied");
     setTimeout(() => {
-      setScanStatus('default');
+      setScanStatus("default");
     }, 2000);
   }
 
@@ -117,32 +117,53 @@ const Reader = () => {
   };
 
   return (
-  <>
-    {process.browser && <div>
-      {scanStatus === 'default' && (
+    <>
+      {process.browser && (
         <div>
-          <div style={{ height: "24em" }}>
-            {scanner && openScanner()}             
-            { !scanner && 
-              // TODO: Query Event Name
-              <Heading1> 
-                Welcome to Event 123
-              </Heading1>
-            }
-          </div>
-          <ScanButton onClick={() => setScannerOpen(!scanner)}>
-            {scanner ? "Tap to Close" : "Tap to Scan"}
-          </ScanButton>
+          {scanStatus === "default" && (
+            <div>
+              <div style={{ height: "24em" }}>
+                {scanner && openScanner()}
+                {!scanner && (
+                  // TODO: Query Event Name
+                  <Heading1>Welcome to Event 123</Heading1>
+                )}
+              </div>
+              <ScanButton onClick={() => setScannerOpen(!scanner)}>
+                {scanner ? "Tap to Close" : "Tap to Scan"}
+              </ScanButton>
+            </div>
+          )}
+
+          {scanStatus === "approved" && (
+            <GreenBackground>
+              <GlobalStyles />
+              <Container>
+                <CheckIcon />
+                <MessageGreen>ACCESS APPROVED</MessageGreen>
+              </Container>
+            </GreenBackground>
+          )}
+
+          {scanStatus === "denied" && (
+            <RedBackground>
+              <GlobalStyles />
+              <Container>
+                <AlertIcon />
+                <MessageRed>ACCESS DENIED</MessageRed>
+              </Container>
+            </RedBackground>
+          )}
         </div>
       )}
+
       {scanStatus === 'approved' && (
         <ApproveScreen />
       )}
+
       {scanStatus === 'denied' && (
         <RejectScreen />
       )}
-
-    </div>}
     </>
   );
 };

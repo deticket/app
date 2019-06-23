@@ -8,7 +8,6 @@ import SideNav from '../components/layout';
 import eventList from '../Data/eventList.json';
 import ticketList from '../Data/ticketList.json';
 
-
 const StyledCell = styled.div`
     font-size: 1em;
     text-align: center;
