@@ -1,3 +1,7 @@
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
+import withData from '../config';
+
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
@@ -5,9 +9,6 @@ import Link from 'next/link';
 import { TextField, Input } from '@material-ui/core';
 import { useState } from 'react';
 import sha256 from 'js-sha256';
-
-import UserList from '../Data/users';
-
 
 const LandingButton = styled(Button)`
   && {
@@ -50,14 +51,24 @@ const EmptyHeader = styled.div`
     font-size: 2em;
 `;
 
-function Login() {
-  // const [loginError, setLoginError] = useState(false);
-  // const [username, setUsername] = useState('');
-  // const [password, setPassword] = useState('');
+// import AuthorList from './AuthorList';
+
+const query = gql`
+	query {
+	  users {
+      userID
+      hashedPW
+    }
+	}
+`
+
+const Index = ({ authors }) => {
+
   const [form, setValues] = useState({
     loginError: false,
     username: '',
     password: '',
+    userData: [],
   });
 
   const changeUsername = (e) => {
@@ -75,80 +86,98 @@ function Login() {
   };
 
 
-  const validateLogin = (user, pw) => {
+  const validateLogin = (user, pw, userData) => {
+    console.log('ud:', userData);
     // loop through UserList searching for the Username/Password combination
-    for (let i = 0; i < UserList.users.length; i += 1) {
+    for (let i = 0; i < userData.length; i += 1) {
       // if there is a match, return the route
-      if (UserList.users[i].name === user && UserList.users[i].password === sha256(pw)) {
+      if (userData[i].userID == user && userData[i].hashedPW == sha256(pw)) {
         // if it is an admin, send him to the scanner App / in the future to the portal
-        if (UserList.users[i].role === 'admin') {
+        if (userData[i].role === 'admin') {
           return '/scannerApp';
         }
         // if its a regular user (not an admin user), send him to his wallet
-        return `/wallet?user=${UserList.users[i].userID}`;
+        return `/wallet?user=${userData[i].userID}`;
       }
     }
+    console.log("here");
     // if the username/password combination didnt not match, return to same page
     return '/';
   };
 
 
   const checkForError = () => {
-    if (validateLogin(form.username, form.password) === '/') {
-      console.log('ERROR');
-      setValues({
-        ...form,
-        loginError: true,
-      });
-    }
+    // if (validateLogin(form.username, form.password, form.userData) === '/') {
+    //   console.log('ERROR');
+    //   setValues({
+    //     ...form,
+    //     loginError: true,
+    //   });
+    // }
   };
 
+  console.log("123", query);
+
+
   return (
-    <>
+    <Query    // <- Wrapping the main component with Query component from react-apollo
+      query={query}
+      fetchPolicy={'cache-and-network'}
+    >
+      {({ loading, data: { users: authors } }) => {
+        // setValues({
+        //   ...form,
+        //   userData: authors,
+        // });
+        return (
+          <div>
+            {form.loginError
+              ? (
+                <ErrorHeader>
+                  Login Failed - Please try again
+                </ErrorHeader>
+              )
+              : (
+                <EmptyHeader />
+              )
+            }
 
-      {form.loginError
-        ? (
-          <ErrorHeader>
-        Login Failed - Please try again
-          </ErrorHeader>
-        )
-        : (
-          <EmptyHeader />
-        )
-      }
-
-      <LogoSection>
-        {/* insert Logo here once we have one */}
-        {/* e.g. <img src={logo} className="App-logo" alt="logo" /> */}
-      </LogoSection>
-      <StyledTextField
-        id="standard-with-placeholder"
-        placeholder="Username or Email"
-        value={form.username}
-        // className={classes.textField}
-        margin="normal"
-        onChange={changeUsername}
-      />
-      <StyledTextField
-        id="standard-password-input"
-        // className={classes.textField}
-        type="password"
-        autoComplete="current-password"
-        margin="normal"
-        placeholder="Password"
-        value={form.password}
-        onChange={changePassword}
-      />
-      <Link href={validateLogin(form.username, form.password)}>
-        <LandingButton
-          onClick={() => checkForError()}
-        >
-          Login
-        </LandingButton>
-      </Link>
-      <LandingButton> Sign up </LandingButton>
-    </>
+            <LogoSection>
+              {/* insert Logo here once we have one */}
+              {/* e.g. <img src={logo} className="App-logo" alt="logo" /> */}
+            </LogoSection>
+            <StyledTextField
+              id="standard-with-placeholder"
+              placeholder="Username or Email"
+              value={form.username}
+              // className={classes.textField}
+              margin="normal"
+              onChange={changeUsername}
+            />
+            <StyledTextField
+              id="standard-password-input"
+              // className={classes.textField}
+              type="password"
+              autoComplete="current-password"
+              margin="normal"
+              placeholder="Password"
+              value={form.password}
+              onChange={changePassword}
+            />
+            <Link href={validateLogin(form.username, form.password, authors)}>
+              <LandingButton
+                onClick={() => checkForError()}
+              >
+                Login
+              </LandingButton>
+            </Link>
+            <LandingButton> Sign up </LandingButton>
+            {console.log(authors)}
+          </div>
+        );
+      }}
+    </Query>
   );
-}
+};
 
-export default Login;
+export default withData(Index)
