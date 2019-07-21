@@ -64,6 +64,16 @@ const SubHeading = styled.h1`
   margin-bottom: 20%;
 `;
 
+
+// const query = gql`
+// 	query {
+// 	  users {
+//       userID
+//       hashedPW
+//     }
+// 	}
+// `
+
 // function getTickets to get all the tickets from the user
 // TODO: fetch data from route once we have a backend
 function getTickets(userIDfromRoute) {
@@ -111,16 +121,16 @@ function wallet({ query }) {
           <div>
             <StyledCell>
               <TopRow>
-                <div>{userEvents[index].event_name }</div>
+                <div>{userEvents[index].event_name}</div>
                 <div>
-                  {`${userTickets[index].InitialPrice} €` }
+                  {`${userTickets[index].InitialPrice} €`}
                   {/* .toFixed(2)} */}
                 </div>
               </TopRow>
               <BottomRow>{userEvents[index].event_details.date}</BottomRow>
             </StyledCell>
             <ColoredCell>
-              {userEvents[index].event_name }
+              {userEvents[index].event_name}
             </ColoredCell>
           </div>
         </Link>

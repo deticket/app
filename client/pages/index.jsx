@@ -51,8 +51,6 @@ const EmptyHeader = styled.div`
     font-size: 2em;
 `;
 
-// import AuthorList from './AuthorList';
-
 const query = gql`
 	query {
 	  users {
@@ -71,6 +69,7 @@ const Index = ({ authors }) => {
     userData: [],
   });
 
+  // Updatting Username & PW on input
   const changeUsername = (e) => {
     setValues({
       ...form,
@@ -85,7 +84,7 @@ const Index = ({ authors }) => {
     });
   };
 
-
+  // Validating Username & PW combination by running thru userData
   const validateLogin = (user, pw, userData) => {
     console.log('ud:', userData);
     // loop through UserList searching for the Username/Password combination
@@ -107,17 +106,16 @@ const Index = ({ authors }) => {
 
 
   const checkForError = () => {
-    // if (validateLogin(form.username, form.password, form.userData) === '/') {
-    //   console.log('ERROR');
-    //   setValues({
-    //     ...form,
-    //     loginError: true,
-    //   });
-    // }
+    // TODO: fix this to make it only call if the user/PW combination is wrong
+    if (validateLogin(form.username, form.password, form.userData) === '/') {
+      console.log(form.userData);
+      console.log('ERROR');
+      setValues({
+        ...form,
+        loginError: true,
+      });
+    }
   };
-
-  console.log("123", query);
-
 
   return (
     <Query    // <- Wrapping the main component with Query component from react-apollo
@@ -125,6 +123,9 @@ const Index = ({ authors }) => {
       fetchPolicy={'cache-and-network'}
     >
       {({ loading, data: { users: authors } }) => {
+        // TODO: add loading screen
+        // TODO: add fetch error screen
+
         // setValues({
         //   ...form,
         //   userData: authors,
