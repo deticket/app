@@ -13,127 +13,8 @@ import QRCode from './QRCode';
 import ticketList from '../Data/ticketList';
 import eventList from '../Data/eventList';
 
-const HeaderCell = styled.div`
-  font-size: 1em;
-  color: rgba(69, 69, 69, 1);
-  background: transparent;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 2.2em;
-  padding-left: 0em;
-  padding-right: 1em;
-`;
+import { HeaderCell, ContentCellSmall, BottomPaper, CounterContainer, MiddleContainer, TapIcon, HeaderIcon, HeaderButton, StyledHeader, ContentCell, TopPaper, MiddlePaper } from './displayticket-styles'
 
-const ContentCell = styled.div`
-  font-size: 1.5em;
-  color: black;
-  background: transparent;
-  height: 1.7em;
-  padding-left: 0em;
-  padding-right: 1em;
-  margin-top: 0.2em;
-`;
-
-const ContentCellSmall = styled.div`
-  font-size: 1.2em;
-  color: black;
-  background: transparent;
-  height: 1.7em;
-  padding-left: 0em;
-  padding-right: 1em;
-  margin-top: 0.2em;
-`;
-
-const TopPaper = styled(Paper)`
-  && {
-    margin: 1em auto 0 auto;
-    color: black;
-    width: 90%;
-    background: rgba(244, 247, 251, 0.85);
-    border-radius: 6px;
-    padding-top: 2em;
-    padding-bottom: 1.5em;
-    height: 19em;
-  }
-`;
-
-const MiddlePaper = styled(Paper)`
-  && {
-    margin: 1em auto 0 auto;
-    color: black;
-    width: 90%;
-    background: rgba(244, 247, 251, 0.85);
-    border-radius: 6px;
-  }
-`;
-
-const BottomPaper = styled(Paper)`
-  && {
-    margin: 1em auto 0 auto;
-    color: black;
-    width: 90%;
-    background: rgba(244, 247, 251, 0.85);
-    border-radius: 6px;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    padding-left: 7%;
-  }
-`;
-
-const CounterContainer = styled.div`
-  font-size: 1.2em;
-  margin-top: 1em;
-`;
-
-const MiddleContainer = styled.div`
-  text-align: left;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  padding-left: 7%;
-  padding-top: 0.2em;
-  padding-bottom: 0.6em;
-
-`;
-
-const StyledHeader = styled.header`
-  justify-content: flex-start;
-  margin: auto;
-  display: flex;
-  height: 7em;
-  font-family: "arial";
-`;
-
-const HeaderButton = styled(Button)`
-  && {
-    color: white;
-    border-color: transparent;
-    width: 40%;
-    background-color: transparent;
-  }
-`;
-
-const HeaderIcon = styled(BackIcon)`
-  && {
-    color: white;
-    margin-right: 25%;
-    height: 100%;
-    width: 50%;
-  }
-`;
-
-const TapIcon = styled(FingerIcon)`
-  && {
-    color: black;
-    margin-right: auto;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    height: 5em;
-    width: 5em;
-  }
-`;
 
 // TODO: factor divs out
 const DisplayTicket = ({ ticketIDFromRoute, userIDfromRoute }) => {
@@ -233,7 +114,7 @@ const DisplayTicket = ({ ticketIDFromRoute, userIDfromRoute }) => {
           </div>
           <div>
             <HeaderCell>Location</HeaderCell>
-            <ContentCellSmall>{`${eventList.events[getEventIndexFromRoute()].event_details.location_name}, ${eventList.events[0].event_details.city}` }</ContentCellSmall>
+            <ContentCellSmall>{`${eventList.events[getEventIndexFromRoute()].event_details.location_name}, ${eventList.events[0].event_details.city}`}</ContentCellSmall>
           </div>
         </MiddleContainer>
       </MiddlePaper>
@@ -259,11 +140,17 @@ const DisplayTicket = ({ ticketIDFromRoute, userIDfromRoute }) => {
 };
 
 DisplayTicket.propTypes = {
-  id: PropTypes.string,
+  ticketIDFromRoute: PropTypes.string,
+  userIDfromRoute: PropTypes.string,
+  seconds: PropTypes.number,
+  completed: PropTypes.bool,
 };
 
 DisplayTicket.defaultProps = {
-  id: PropTypes.objectOf(PropTypes.string),
+  ticketIDFromRoute: PropTypes.objectOf(PropTypes.string),
+  userIDfromRoute: PropTypes.objectOf(PropTypes.string),
+  seconds: 0,
+  completed: true,
 };
 
 export default DisplayTicket;

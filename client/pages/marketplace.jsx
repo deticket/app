@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 // import TextField from '@material-ui/core/TextField';
 import { FixedSizeList as List } from 'react-window';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 
-import { events } from '../Data';
 import SideNav from '../components/layout';
 import Dialog from '../components/purchaseDialog';
+
+import eventList from '../Data/eventList.json';
 
 
 const StyledCell = styled.div`
     font-size: 1em;
     text-align: center;
-    color: white;
+    color: black;
     height: 8em;
-    background: rgba(0, 0, 0, 0.3);
+    background: white;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -43,8 +44,8 @@ const TestButton = styled(Button)`
     height: 2.2em;
     width: 100%;
     font-size: 1em;
-    color: black;
-    background: white;
+    color: white;
+    background: blue;
   }
 `;
 
@@ -53,65 +54,60 @@ const Heading1 = styled.h1`
   font-size: 3em;
 `;
 
-function createData(i) {
-  const id = i;
-  const ticketName = events[i].eventName;
-  console.log(events[i]);
-  console.log(events[i].eventName);
-  const { date } = events[i];
-  const ticketPrice = events[i].price;
-
-  return {
-    id,
-    ticketName,
-    date,
-    ticketPrice,
-  };
+// TODO: once there is a variable "ticketSaleOnogoing", query based on that
+// get List of all active Events where tickets are available
+function getActiveEvents() {
+  const activeEvents = [];
+  for (let i = 0; i < eventList.events.length; i += 1) {
+    if (eventList.events[i].ticket_data.total_tickets - eventList.events[i].ticket_data.tickets_sold > 0) {
+      activeEvents.push(eventList.events[i]);
+    }
+  }
+  return activeEvents;
 }
+
 function marketplace({ query }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [activeEvents, setActiveEvents] = useState([]);
+  const [eventData, setEventData] = useState([]);
+
+  // queries the active events on first render
+  useEffect(() => {
+    setActiveEvents(getActiveEvents());
+  }, []);
+
+
+  function handleClick(index) {
+    setEventData(activeEvents[index]);
+    setIsDialogOpen(true);
+  }
+
   const TopCell = ({ index, style }) => (
     <div style={style}>
       <StyledCell>
         <TopPart>
-          <div>{events[index].eventName}</div>
-          <div>{events[index].date}</div>
-          <div>{events[index].eventDetails.location}</div>
+          <div>{activeEvents[index].event_name}</div>
+          <div>{activeEvents[index].event_details.date}</div>
+          <div>{activeEvents[index].event_details.location_name}</div>
         </TopPart>
-        <TestButton onClick={() => setIsDialogOpen(true)}>
-          {`Buy Tickets (${events[index].ticketData.totalTickets
-            - events[index].ticketData.ticketsSold} left)`}
+        <TestButton onClick={() => handleClick(index)}>
+          {`Get Tickets (${activeEvents[index].ticket_data.total_tickets
+            - activeEvents[index].ticket_data.tickets_sold} left)`}
         </TestButton>
       </StyledCell>
     </div>
   );
 
-  TopCell.propTypes = {
-    index: PropTypes.string,
-    style: PropTypes.objectOf(PropTypes.object),
-  };
-
-  TopCell.defaultProps = {
-    index: PropTypes.string,
-    style: PropTypes.object,
-  };
-
-  const rows = [];
-
-  for (let i = 0; i < events.length; i += 1) {
-    rows[i] = createData(i);
-  }
-
   return (
     <>
       <SideNav userID={query.user} />
-      <Dialog isOpen={isDialogOpen} setState={setIsDialogOpen} />
+      <Dialog isOpen={isDialogOpen} setState={setIsDialogOpen} eventData={eventData} />
       <Heading1>Ticket Marketplace</Heading1>
       <GridContainer>
         <List
-          itemCount={events.length}
+          itemCount={activeEvents.length}
           itemSize={150}
-          height={events.length * 150}
+          height={activeEvents.length * 150}
           width={350}
           style={{ margin: '0 auto 0 auto' }}
         >
@@ -121,6 +117,14 @@ function marketplace({ query }) {
     </>
   );
 }
+
+marketplace.propTypes = {
+  query: PropTypes.objectOf(PropTypes.object),
+};
+
+marketplace.defaultProps = {
+  query: PropTypes.object,
+};
 
 export default marketplace;
 

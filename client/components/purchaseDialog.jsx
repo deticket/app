@@ -1,142 +1,117 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Select from '@material-ui/core/Select';
-import Close from '@material-ui/icons/Close';
+import { FixedSizeList as List } from 'react-window';
 
+import { TopContainer, MidContainer, BottomContainer, SelectorContainer, FlexContainer, MinusButton, MinusButtonDisabled, TicketNumber, CloseButton, PlusButton, PlusButtonDisabled, ListHeader, TopRow, BottomRow, StyledCell, CloseIcon, BuyButton, StyledDialogContent, StyledFormControl } from './purchaseDialog-styles'
 
-const TopContainer = styled.div`
-  width: 100%; 
-  display: flex; 
-  justify-content: flex-end;
-`;
-
-const BottomContainer = styled.div`
-  width: 100%; 
-  display: flex; 
-  justify-content: space-around;
-`;
-
-const CloseIcon = styled(Close)`
-    && {
-      width: 1em;
-      height: 1em;
-    }
-`;
-
-const CloseButton = styled(Button)`
-    && {
-    font-size: 1em;
-    color: black;
-    background: white;
-    }
-`;
-
-const BuyButton = styled(Button)`
-    && {
-      font-size: 2em; 
-      width: 3em;
-      height: 2em;
-    }
-`;
-
-const StyledMenuItem = styled(MenuItem)`
-    && {
-    font-size: 2em; 
-    height: 2em;
-    text-align: end;
-    }
-`;
-
-const StyledSelect = styled(Select)`
-    && {
-    font-size: 2em; 
-    width: 2em;
-    height: 2em;
-    color: black;
-    text-align: end;
-    }
-`;
-
-const StyledDialogContentText = styled(DialogContentText)`
-  && {
-    font-size: 1.5em; 
-    margin-bottom: 2em;
-  }
-`;
-
-const StyledFormControl = styled(FormControl)`
-    width: 100%;
-`;
 
 function PurchaseDialog(props) {
-  // numberOfTickets is the value of the Select; default: 1
+  // numberOfTickets is the value of the Selector; default: 1
   const [numberOfTickets, setNumberofTickets] = useState(1);
-
-  // function to change the value of the Select
-  function handleNumberChange(event) {
-    setNumberofTickets(event.target.value);
-  }
 
   // function to set isOpen to false and close the Dialog
   function handleClose() {
     props.setState(false);
   }
 
-  const { isOpen } = props;
+  const { isOpen, eventData } = props;
 
+  const Ticket = ({ index, style }) => (
+    <div style={style}>
+
+      <StyledCell>
+        <TopRow>
+          <div>
+            {`Ticket #${index + 1}`}
+          </div>
+          <div>
+            {parseFloat(eventData.ticket_data.ticket_price).toFixed(2)}
+            {' '}
+            €
+          </div>
+        </TopRow>
+        <BottomRow>
+          <FlexContainer>
+            <div>
+              {eventData.event_name}
+            </div>
+            <div>
+              {eventData.event_details.date}
+            </div>
+          </FlexContainer>
+          <div>
+            {`${eventData.event_details.location_name}, ${eventData.event_details.city}`}
+          </div>
+        </BottomRow>
+      </StyledCell>
+
+    </div>
+  );
+
+  // TODO: query number of available Tickets from Event to prevent selling more tickets than available
   return (
     <React.Fragment>
       <Dialog
         fullWidth
+        repositiononupdate="false"
         open={isOpen}
         onClose={() => handleClose()}
         aria-labelledby="max-width-dialog-title"
       >
-        <DialogContent>
-          <TopContainer>
-            <CloseButton onClick={() => handleClose()} color="primary">
-              <CloseIcon />
-            </CloseButton>
-          </TopContainer>
-          <StyledDialogContentText>
-            How many Tickets do you want to get?
-          </StyledDialogContentText>
+        <TopContainer>
+          <CloseButton onClick={() => handleClose()} color="primary">
+            <CloseIcon />
+          </CloseButton>
+        </TopContainer>
+        <StyledDialogContent>
+          <DialogContentText>
+            Please select how many tickets you want to purchase
+          </DialogContentText>
+
           <StyledFormControl>
-            <BottomContainer>
-              <StyledSelect
-                value={numberOfTickets}
-                onChange={handleNumberChange}
-                inputProps={{
-                  name: 'max-width',
-                  id: 'max-width',
-                }}
-                input={(
-                  <OutlinedInput
-                    name="age"
-                    id="outlined-age-simple"
-                  />
-                )}
+            <SelectorContainer>
+              {numberOfTickets > 1
+                && (<MinusButton onClick={() => setNumberofTickets(numberOfTickets - 1)}> - </MinusButton>)
+              }
+              {numberOfTickets === 1
+                && (<MinusButtonDisabled> - </MinusButtonDisabled>)
+              }
+              <TicketNumber>
+                {numberOfTickets}
+              </TicketNumber>
+              {numberOfTickets < 3
+                && (<PlusButton onClick={() => setNumberofTickets(numberOfTickets + 1)}> + </PlusButton>)
+              }
+              {numberOfTickets === 3
+                && (<PlusButtonDisabled> + </PlusButtonDisabled>)
+              }
+            </SelectorContainer>
+            <MidContainer>
+              <ListHeader>
+                Tickets
+              </ListHeader>
+              <List
+                itemCount={numberOfTickets}
+                itemSize={80}
+                height={3 * 80}
+                style={{ margin: '0 auto 0 auto' }}
               >
-                <StyledMenuItem value="1">1</StyledMenuItem>
-                <StyledMenuItem value="2">2</StyledMenuItem>
-                <StyledMenuItem value="3">3</StyledMenuItem>
-                <StyledMenuItem value="4">4</StyledMenuItem>
-              </StyledSelect>
+                {Ticket}
+              </List>
+            </MidContainer>
+            <BottomContainer>
               <BuyButton color="primary">
-                {/* Here we need to fire the transaction to buy tickets */}
-                BUY
+                {/* TODO: Here we need to fire the transaction to buy tickets */}
+                {isOpen && `Buy ${numberOfTickets} Ticket(s) for ${(eventData.ticket_data.ticket_price * numberOfTickets).toFixed(2)} €`}
               </BuyButton>
             </BottomContainer>
           </StyledFormControl>
-        </DialogContent>
+        </StyledDialogContent>
       </Dialog>
     </React.Fragment>
   );
@@ -145,11 +120,13 @@ function PurchaseDialog(props) {
 PurchaseDialog.propTypes = {
   isOpen: PropTypes.bool,
   setState: PropTypes.func,
+  eventData: PropTypes.objectOf(PropTypes.any),
 };
 
 PurchaseDialog.defaultProps = {
   isOpen: 'false',
-  setState: () => {},
+  setState: () => { },
+  eventData: PropTypes.object,
 };
 
 export default PurchaseDialog;

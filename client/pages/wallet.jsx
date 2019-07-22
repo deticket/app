@@ -8,61 +8,8 @@ import SideNav from '../components/layout';
 import eventList from '../Data/eventList.json';
 import ticketList from '../Data/ticketList.json';
 
-const StyledCell = styled.div`
-    font-size: 1em;
-    text-align: center;
-    color: black;
-    height: 6em;
-    background: rgba(999,999,999,0.8);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    border-radius: 6px 6px 0px 0px;
-    display: flex;
-`;
+import { TopRow, BottomRow, StyledCell, ColoredCell, GridContainer, SubHeading, Heading1 } from '../components/styles/wallet-styles'
 
-const ColoredCell = styled.div`
-    font-size: 1.25em;
-    text-align: center;
-    color: white;
-    height: 2.5em;
-    background: #16043E;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    border-radius: 0px 0px 6px 6px;
-    display: flex;
-`;
-
-const TopRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-left: 5%;
-  margin-right: 5%;
-`;
-
-const BottomRow = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin-left: 5%;
-`;
-
-const GridContainer = styled.div`
-  margin: auto;
-`;
-
-const Heading1 = styled.h1`
-  height: 0.5em;
-  font-size: 3em;
-  font-weight: normal;
-`;
-
-const SubHeading = styled.h1`
-  height: 1em;
-  font-size: 1em;
-  font-weight: lighter;
-  margin-bottom: 20%;
-`;
 
 // function getTickets to get all the tickets from the user
 // TODO: fetch data from route once we have a backend
@@ -111,16 +58,16 @@ function wallet({ query }) {
           <div>
             <StyledCell>
               <TopRow>
-                <div>{userEvents[index].event_name }</div>
+                <div>{userEvents[index].event_name}</div>
                 <div>
-                  {`${userTickets[index].InitialPrice} €` }
+                  {`${userTickets[index].InitialPrice} €`}
                   {/* .toFixed(2)} */}
                 </div>
               </TopRow>
               <BottomRow>{userEvents[index].event_details.date}</BottomRow>
             </StyledCell>
             <ColoredCell>
-              {userEvents[index].event_name }
+              {userEvents[index].event_name}
             </ColoredCell>
           </div>
         </Link>
@@ -160,15 +107,17 @@ function wallet({ query }) {
     </>
   );
 }
-// TopCell.propTypes = {
-//   index: PropTypes.number,
-//   style: PropTypes.objectOf(PropTypes.any),
-// };
+wallet.propTypes = {
+  query: PropTypes.objectOf(PropTypes.any),
+  index: PropTypes.number,
+  style: PropTypes.objectOf(PropTypes.any),
+};
 
-// TopCell.defaultProps = {
-//   index: 1,
-//   style: PropTypes.object,
-// };
+wallet.defaultProps = {
+  query: PropTypes.object,
+  index: 1,
+  style: PropTypes.object,
+};
 
 export default wallet;
 
