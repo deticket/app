@@ -5,6 +5,8 @@ import { FixedSizeList as List } from 'react-window';
 import PropTypes from 'prop-types';
 
 import SideNav from '../components/layout';
+import BottomNav from '../components/layout/BottomNav';
+
 import eventList from '../Data/eventList.json';
 import ticketList from '../Data/ticketList.json';
 
@@ -104,6 +106,7 @@ function wallet({ query }) {
           </StyledCell>
         </Link>
       </GridContainer>
+      <BottomNav initialRoute={"wallet"} userID={query.user} />
     </>
   );
 }

@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 
 import SideNav from '../components/layout';
+import BottomNav from '../components/layout/BottomNav';
+
 import Dialog from '../components/purchaseDialog';
 
 import eventList from '../Data/eventList.json';
@@ -98,6 +100,7 @@ function marketplace({ query }) {
     </div>
   );
 
+  console.log("q ", query.user);
   return (
     <>
       <SideNav userID={query.user} />
@@ -114,6 +117,7 @@ function marketplace({ query }) {
           {TopCell}
         </List>
       </GridContainer>
+      <BottomNav initialRoute={"marketplace"} userID={query.user} />
     </>
   );
 }
