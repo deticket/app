@@ -45,9 +45,10 @@ export const GridContainer = styled.div`
 `;
 
 export const Heading1 = styled.h1`
-  height: 0.5em;
   font-size: 3em;
   font-weight: normal;
+  margin: 0;
+  padding-top: 2em;
 `;
 
 export const SubHeading = styled.h1`

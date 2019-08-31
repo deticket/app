@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { FixedSizeList as List } from 'react-window';
 import PropTypes from 'prop-types';
 
-import SideNav from '../components/layout';
 import BottomNav from '../components/layout/BottomNav';
 
 import eventList from '../Data/eventList.json';
@@ -78,7 +77,7 @@ function wallet({ query }) {
   };
   return (
     <>
-      <SideNav userID={query.user} />
+      {/* <SideNav userID={query.user} /> */}
       <Heading1>My Tickets</Heading1>
       <SubHeading>
         {userTickets.length}
@@ -97,7 +96,7 @@ function wallet({ query }) {
         </List>
         <Link href="/marketplace">
           <StyledCell style={{
-            width: '85%', borderColor: 'white', borderStyle: 'dashed', borderWidth: '2px', background: 'transparent', margin: 'auto', height: '9em',
+            width: '85%', borderColor: 'white', borderStyle: 'dashed', borderWidth: '2px', background: 'transparent', margin: 'auto', height: '9em', marginBottom: '3%',
           }}
           >
             <div style={{ color: 'white' }}>
