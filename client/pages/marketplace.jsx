@@ -1,3 +1,8 @@
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
+import withData from '../config';
+
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 // import TextField from '@material-ui/core/TextField';
@@ -5,8 +10,6 @@ import { FixedSizeList as List } from 'react-window';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 
-import { events } from '../Data';
-import SideNav from '../components/layout';
 import Dialog from '../components/purchaseDialog';
 
 
@@ -53,75 +56,91 @@ const Heading1 = styled.h1`
   font-size: 3em;
 `;
 
-function createData(i) {
-  const id = i;
-  const ticketName = events[i].eventName;
-  console.log(events[i]);
-  console.log(events[i].eventName);
-  const { date } = events[i];
-  const ticketPrice = events[i].price;
+const query = gql`
+	query {
+	  events {
+      event_name
+      event_owner
+      event_details {
+        location_name
+        city
+        date
+      }
+      ticket_data {
+        total_tickets
+        tickets_sold
+      }
+    }
+	}
+`
 
-  return {
-    id,
-    ticketName,
-    date,
-    ticketPrice,
-  };
-}
-function marketplace({ query }) {
+console.log("q: ", query);
+
+function marketplace({ }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const TopCell = ({ index, style }) => (
-    <div style={style}>
-      <StyledCell>
-        <TopPart>
-          <div>{events[index].eventName}</div>
-          <div>{events[index].date}</div>
-          <div>{events[index].eventDetails.location}</div>
-        </TopPart>
-        <TestButton onClick={() => setIsDialogOpen(true)}>
-          {`Buy Tickets (${events[index].ticketData.totalTickets
-            - events[index].ticketData.ticketsSold} left)`}
-        </TestButton>
-      </StyledCell>
-    </div>
-  );
-
-  TopCell.propTypes = {
-    index: PropTypes.string,
-    style: PropTypes.objectOf(PropTypes.object),
-  };
-
-  TopCell.defaultProps = {
-    index: PropTypes.string,
-    style: PropTypes.object,
-  };
-
-  const rows = [];
-
-  for (let i = 0; i < events.length; i += 1) {
-    rows[i] = createData(i);
-  }
 
   return (
     <>
-      <SideNav userID={query.user} />
-      <Dialog isOpen={isDialogOpen} setState={setIsDialogOpen} />
-      <Heading1>Ticket Marketplace</Heading1>
-      <GridContainer>
-        <List
-          itemCount={events.length}
-          itemSize={150}
-          height={events.length * 150}
-          width={350}
-          style={{ margin: '0 auto 0 auto' }}
-        >
-          {TopCell}
-        </List>
-      </GridContainer>
+      <Query    // <- Wrapping the main component with Query component from react-apollo
+        query={query}
+        fetchPolicy={'cache-and-network'}
+      >
+        {({ loading, data: { events: eventData } }) => {
+
+          // TODO: add loading screen
+          // TODO: add fetch error screen
+
+          // setValues({
+          //   ...form,
+          //   events: eventData,
+          // });
+
+          console.log("q: ", eventData);
+          const TopCell = ({ index, style }) => (
+            <div style={style}>
+              <StyledCell>
+                <TopPart>
+                  <div>{eventData[index].event_name}</div>
+                  <div>{eventData[index].event_owner}</div>
+                  <div>{eventData[index].event_details.date}</div>
+                  <div>{eventData[index].event_details.location_name + ", " + eventData[index].event_details.city}</div>
+                </TopPart>
+              </StyledCell>
+            </div>
+          );
+
+          // TopCell.propTypes = {
+          //   index: PropTypes.string,
+          //   style: PropTypes.objectOf(PropTypes.object),
+          // };
+
+          // TopCell.defaultProps = {
+          //   index: PropTypes.string,
+          //   style: PropTypes.object,
+          // };
+          return (
+            <>
+              <Dialog isOpen={isDialogOpen} setState={setIsDialogOpen} />
+              <Heading1>Ticket Marketplace</Heading1>
+              <GridContainer>
+                <List
+                  itemCount={eventData.length}
+                  itemSize={150}
+                  height={eventData.length * 150}
+                  width={350}
+                  style={{ margin: '0 auto 0 auto' }}
+                >
+                  {TopCell}
+                </List>
+              </GridContainer>
+            </>
+          );
+        }}
+      </Query>
     </>
   );
 }
 
-export default marketplace;
+export default withData(marketplace);
 
 marketplace.getInitialProps = ({ query }) => ({ query });

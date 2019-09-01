@@ -60,7 +60,7 @@ const query = gql`
 	}
 `
 
-const Index = ({ authors }) => {
+const Index = () => {
 
   const [form, setValues] = useState({
     loginError: false,
@@ -122,13 +122,13 @@ const Index = ({ authors }) => {
       query={query}
       fetchPolicy={'cache-and-network'}
     >
-      {({ loading, data: { users: authors } }) => {
+      {({ loading, data: { users: userLogins } }) => {
         // TODO: add loading screen
         // TODO: add fetch error screen
 
         // setValues({
         //   ...form,
-        //   userData: authors,
+        //   userData: userLogins,
         // });
         return (
           <div>
@@ -165,7 +165,7 @@ const Index = ({ authors }) => {
               value={form.password}
               onChange={changePassword}
             />
-            <Link href={validateLogin(form.username, form.password, authors)}>
+            <Link href={validateLogin(form.username, form.password, userLogins)}>
               <LandingButton
                 onClick={() => checkForError()}
               >
@@ -173,7 +173,7 @@ const Index = ({ authors }) => {
               </LandingButton>
             </Link>
             <LandingButton> Sign up </LandingButton>
-            {console.log(authors)}
+            {console.log("a", userLogins)}
           </div>
         );
       }}
