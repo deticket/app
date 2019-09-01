@@ -4,24 +4,24 @@ import { withRouter } from 'next/router';
 
 // import { createGlobalStyle } from "styled-components";
 
-import Ticket from '../components/displayticket';
+import DisplayTicket from '../components/displayticket';
 
-function DisplayTicket(props) {
+function Ticket(props) {
   const { router } = props;
   return (
     <>
-      <Ticket ticketIDFromRoute={router.query.ticketID} userIDfromRoute={router.query.user} />
+      <DisplayTicket ticketIDFromRoute={router.query.ticketID} userIDfromRoute={router.query.user} />
       {console.log(`id is: ${router.query.ticketID}`)}
     </>
   );
 }
 
-DisplayTicket.propTypes = {
+Ticket.propTypes = {
   router: PropTypes.objectOf(PropTypes.any),
 };
 
-DisplayTicket.defaultProps = {
+Ticket.defaultProps = {
   router: PropTypes.object,
 };
 
-export default withRouter(DisplayTicket);
+export default withRouter(Ticket);
