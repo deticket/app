@@ -1,127 +1,33 @@
+import React, { useState } from 'react';
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import withData from '../config';
-
-
-import React, { useState } from 'react';
-import styled from 'styled-components';
-// import TextField from '@material-ui/core/TextField';
 import { FixedSizeList as List } from 'react-window';
-import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 
 import BottomNav from '../components/layout/BottomNav';
-
 import Dialog from '../components/purchaseDialog';
+import LocationSelect from '../components/locationSelect';
 
-import eventList from '../Data/eventList.json';
-
-
-const StyledCell = styled.div`
-    font-size: 1em;
-    color: black;
-    height: 6em;
-    background: rgba(999,999,999,0.8);
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: flex-start;
-    border-radius: 5px;
-    display: flex;
-    margin: auto;
-    width: 85%;
-    padding-left: 5%;
-    padding-right: 5%;
-`;
-
-const DateCell = styled.div`
-    font-size: 1em;
-    color: white;
-    border-radius: 5px;
-    display: flex;
-    align-items: flex-start;
-    margin-left: 7.5%;
-    margin-bottom: 2%;
-`;
-
-const Contents = styled.div`
-    flex-direction: column;
-`;
-
-
-const BottomRow = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-`;
-
-const GridContainer = styled.div`
-  margin: auto;
-  margin-top: 10%;
-`;
-
-const FilterContainer = styled.div`
-  width: 85%;
-  margin: auto;
-  margin-top: 10%;
-  display: flex;
-`;
-
-const ButtonContainer = styled.div`
-  width: 100%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const TestButton = styled(Button)`
-  && {
-    font-size: 1em;
-    text-transform: none;
-    color: black;
-    height: 6em;
-    background: rgba(999,999,999,0.8);
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: flex-start;
-    border-radius: 5px;
-    display: flex;
-    margin: auto;
-    width: 85%;
-    padding-left: 5%;
-    padding-right: 5%;
-  }
-`;
-
-const SearchButton = styled(Button)`
-&& {
-  height: 2.2em;
-  width: 25%;
-  font-size: 1em;
-  color: black;
-  background: rgba(999,999,999,0.8);
-}
-`;
-
-const SearchButtonLong = styled(Button)`
-&& {
-  height: 2.2em;
-  width: 40%;
-  font-size: 1em;
-  color: black;
-  background: rgba(999,999,999,0.8);
-}
-`;
-
-const Heading1 = styled.h1`
-  font-size: 3em;
-  font-weight: normal;
-  margin: 0;
-  padding-top: 2em;
-`;
+import { TopRow, TopPart, BottomPart, BottomLeft, BottomRight, DateCell, Contents, BottomRow, TestButton, GridContainer, Heading1, FilterContainer, SearchButtonLong, SearchButton, ButtonContainer } from '../components/styles/marketplace-styles'
 
 const query = gql`
-	query {
-	  events {
+	query EVENTS($type: String!, $typeFilter: Boolean!, $location: String!, $locationFilter: Boolean!){
+      events(where: {
+        _and: [ {
+          _or: [
+            {event_name: {_is_null: $typeFilter}}, 
+            {event_name: {_eq: "123"}}   
+          ] }, {
+          _or:  [
+            {event_details: {
+        			city: {_is_null: $locationFilter}}},
+            {event_details: {
+        			city: {_eq: $location}}},
+          ] }
+        ]
+      }
+      ){
       event_name
       event_owner
       event_details {
@@ -137,46 +43,44 @@ const query = gql`
 	}
 `
 
-console.log("q: ", query);
-
 function marketplace({ }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const [type, setType] = useState("");
+  const [typeFilter, setTypeFilter] = useState(false);
+
+  const [location, setLocation] = useState("LOCATION");
+  const [locationFilter, setLocationFilter] = useState(false);
+
   function handleClick(index) {
-    setEventData(activeEvents[index]);
     setIsDialogOpen(true);
   }
-  // const TopCell = ({ index, style }) => (
-  //   <div style={style}>
-  //     <DateCell>
-  //       {activeEvents[index].event_details.date}
-  //     </DateCell>
-  //     <TestButton onClick={() => handleClick(index)}>
-  //       <Contents>
-  //         <div>{activeEvents[index].event_name}</div>
-  //         {/* <div>{activeEvents[index].event_details.date}</div> */}
-  //         <BottomRow>
-  //           <div>{activeEvents[index].event_details.location_name}</div>
-  //           <div>Time</div>
-  //         </BottomRow>
-  //         {/* <TestButton onClick={() => handleClick(index)}>
-  //         {`Get Tickets (${activeEvents[index].ticket_data.total_tickets
-  //           - activeEvents[index].ticket_data.tickets_sold} left)`}
-  //       </TestButton> */}
-  //       </Contents>
-  //     </TestButton>
-  //   </div >
-  // );
 
-  console.log("q ", query.user);
+  function resetFilters() {
+    console.log("reset filters");
+    setTypeFilter(false);
+    setLocationFilter(false);
+  }
+
+  // console.log("q ", query.user);
   return (
     <>
+      <Dialog isOpen={isDialogOpen} setState={setIsDialogOpen} />
+      <Heading1>Ticket Marketplace</Heading1>
+
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        {/* <TypeSelect type={type} setType={setType} setTypeFilter={setTypeFilter} /> */}
+        <SearchButton onClick={() => resetFilters()}>Reset</SearchButton>
+        <LocationSelect location={location} setLocation={setLocation} setLocationFilter={setLocationFilter} />
+      </div>
       <Query    // <- Wrapping the main component with Query component from react-apollo
         query={query}
         fetchPolicy={'cache-and-network'}
+        variables={{ type, typeFilter, location, locationFilter }}
       >
         {({ loading, data: { events: eventData } }) => {
-
+          if (loading) return "Loading...";
+          //if (error) return "Error...";
           // TODO: add loading screen
           // TODO: add fetch error screen
 
@@ -186,18 +90,45 @@ function marketplace({ }) {
           // });
 
           console.log("q: ", eventData);
-          const TopCell = ({ index, style }) => (
-            <div style={style}>
-              <StyledCell>
-                <TopPart>
-                  <div>{eventData[index].event_name}</div>
-                  <div>{eventData[index].event_owner}</div>
-                  <div>{eventData[index].event_details.date}</div>
-                  <div>{eventData[index].event_details.location_name + ", " + eventData[index].event_details.city}</div>
-                </TopPart>
-              </StyledCell>
-            </div>
-          );
+
+          const TopCell = ({ index, style }) => {
+
+            return (
+              <div style={style}>
+                <DateCell>
+                  {`${(new Date(Date.parse(eventData[index].event_details.date))).toString().split(' ')[0]}, ${(new Date(Date.parse(eventData[index].event_details.date))).getDate()}.${(new Date(Date.parse(eventData[index].event_details.date))).getMonth() + 1}`}
+                </DateCell>
+
+                <TestButton onClick={() => handleClick(index)}>
+
+                  <Contents>
+                    <TopPart>
+                      <TopRow>
+                        {eventData[index].event_name}
+                        {/* <div>{activeEvents[index].event_details.date}</div> */}
+                      </TopRow>
+                      <BottomRow>
+                        {eventData[index].event_owner}
+                      </BottomRow>
+                    </TopPart>
+
+                    <BottomPart>
+                      <BottomLeft>
+                        <div>{eventData[index].event_details.location_name}</div>
+                      </BottomLeft>
+                      <BottomRight>
+                        Time
+                    </BottomRight>
+                    </BottomPart>
+                    {/* <TestButton onClick={() => handleClick(index)}>
+                  {`Get Tickets (${activeEvents[index].ticket_data.total_tickets
+                    - activeEvents[index].ticket_data.tickets_sold} left)`}
+                </TestButton> */}
+                  </Contents>
+                </TestButton>
+              </div >
+            )
+          };
 
           // TopCell.propTypes = {
           //   index: PropTypes.string,
@@ -208,23 +139,15 @@ function marketplace({ }) {
           //   index: PropTypes.string,
           //   style: PropTypes.object,
           // };
+
           return (
             <>
-              <Dialog isOpen={isDialogOpen} setState={setIsDialogOpen} />
-              <Heading1>Ticket Marketplace</Heading1>
-              <FilterContainer>
-                <ButtonContainer>
-                  <SearchButton>Type</SearchButton>
-                  <SearchButtonLong>Location</SearchButtonLong>
-                  <SearchButton>Date</SearchButton>
-                </ButtonContainer>
-              </FilterContainer>
               <GridContainer>
                 <List
                   itemCount={eventData.length}
                   itemSize={150}
                   height={eventData.length * 150}
-                  width={350}
+                  width={"100%"}
                   style={{ margin: '0 auto 0 auto' }}
                 >
                   {TopCell}
@@ -233,21 +156,8 @@ function marketplace({ }) {
             </>
           );
         }}
-        <BottomNav initialRoute={"marketplace"} userID={query.user} />
       </Query>
-      {/* <SideNav userID={query.user} /> */}
-
-      {/* <GridContainer>
-        <List
-          itemCount={activeEvents.length}
-          itemSize={150}
-          height={activeEvents.length * 150}
-          width={"100vw"}
-          style={{ margin: '0 auto 0 auto' }}
-        >
-          {TopCell}
-        </List>
-      </GridContainer> */}
+      <BottomNav initialRoute={"marketplace"} userID={query.user} />
     </>
   );
 }
@@ -261,4 +171,4 @@ marketplace.defaultProps = {
 
 export default withData(marketplace);
 
-marketplace.getInitialProps = ({ query }) => ({ query });
+// marketplace.getInitialProps = ({ query }) => ({ query });

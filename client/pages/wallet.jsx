@@ -1,20 +1,16 @@
+import React, { useState, useEffect } from 'react';
+
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import withData from '../config';
 
-import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import styled from 'styled-components';
 import { FixedSizeList as List } from 'react-window';
 import PropTypes from 'prop-types';
 
 import BottomNav from '../components/layout/BottomNav';
 
-import eventList from '../Data/eventList.json';
-import ticketList from '../Data/ticketList.json';
-
 import { TopRow, BottomRow, StyledCell, ColoredCell, GridContainer, SubHeading, Heading1 } from '../components/styles/wallet-styles'
-
 
 
 const query = gql`
@@ -35,16 +31,6 @@ const query = gql`
 `
 
 function wallet() {
-  const [userTickets, setUserTickets] = useState([]);
-  const [userEvents, setUserEvents] = useState([]);
-
-  // takes 'user' paramter from route and queries the tickets for that user on first render
-  useEffect(() => {
-    // setUserTickets(getTickets(query.user));
-    // setUserEvents(getEvents(query.user));
-    console.log('tix:', userTickets);
-    console.log('evt:', userEvents);
-  }, []);
 
   return (
     <>
@@ -53,10 +39,10 @@ function wallet() {
         fetchPolicy={'cache-and-network'}
       >
         {({ loading, data: { tickets: ticketData } }) => {
+          if (loading) return "Loading...";
 
           console.log(ticketData);
           const TopCell = ({ index, style }) => {
-            console.log('here: ', index);
             return (
               <div style={style}>
                 {/* <Link href={`/ticket?user=${query.user}&ticketID=${userTickets[index].TicketID}${userEvents[index].event_ID}`}> */}
@@ -76,7 +62,6 @@ function wallet() {
               </div>
             );
           };
-
 
           return (
             <>
@@ -103,10 +88,11 @@ function wallet() {
                   >
                     <div style={{ color: 'white' }}>
                       Browse Marketplace for more Tickets
-            </div>
+                    </div>
                   </StyledCell>
                 </Link>
               </GridContainer>
+              <BottomNav initialRoute={"wallet"} userID={query.user} />
             </>
           );
         }}
@@ -114,17 +100,18 @@ function wallet() {
     </>
   );
 }
-wallet.propTypes = {
-  query: PropTypes.objectOf(PropTypes.any),
-  index: PropTypes.number,
-  style: PropTypes.objectOf(PropTypes.any),
-};
 
-wallet.defaultProps = {
-  query: PropTypes.object,
-  index: 1,
-  style: PropTypes.object,
-};
+// wallet.propTypes = {
+//   query: PropTypes.objectOf(PropTypes.any),
+//   index: PropTypes.number,
+//   style: PropTypes.objectOf(PropTypes.any),
+// };
+
+// wallet.defaultProps = {
+//   query: PropTypes.object,
+//   index: 1,
+//   style: PropTypes.object,
+// };
 
 export default withData(wallet);
 
