@@ -1,17 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'next/router';
 
-// import { createGlobalStyle } from "styled-components";
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
+import withData from '../config';
+import { withRouter } from 'next/router';
 
 import DisplayTicket from '../components/displayticket';
 
+const query = gql`
+ 	query EVENTS($eventID: Int!, $ticketID: Int!){
+    tickets(where: {eventID: {_eq: $eventID}, ticketID: {_eq: $ticketID} }) {
+      ticketID
+      userID
+      events {
+        event_name
+        event_details {
+          location_name
+          date
+          city
+        }
+      }
+    }
+  }
+`
+
 function Ticket(props) {
   const { router } = props;
+  const [ticketID, setTicketID] = useState(router.query.ticketID.slice(0, 4));
+  const [eventID, setEventID] = useState(router.query.ticketID.slice(4));
+
   return (
     <>
-      <DisplayTicket ticketIDFromRoute={router.query.ticketID} userIDfromRoute={router.query.user} />
-      {console.log(`id is: ${router.query.ticketID}`)}
+      <Query
+        query={query}
+        fetchPolicy={'cache-and-network'}
+        variables={{ ticketID, eventID }}
+      >
+        {({ loading, data: { tickets: ticketData } }) => {
+          if (loading) return "Loading...";
+
+          return (
+            <>
+              <DisplayTicket ticketData={ticketData} />
+              {console.log(`id is: ${router.query.ticketID}`)}
+            </>
+          );
+        }}
+      </Query>
     </>
   );
 }
@@ -24,4 +60,6 @@ Ticket.defaultProps = {
   router: PropTypes.object,
 };
 
-export default withRouter(Ticket);
+export default withRouter(withData(Ticket));
+
+Ticket.getInitialProps = ({ query }) => ({ query });

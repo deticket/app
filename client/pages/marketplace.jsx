@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import withData from '../config';
+import { withRouter } from 'next/router';
+
 import { FixedSizeList as List } from 'react-window';
 import PropTypes from 'prop-types';
 
@@ -43,7 +45,9 @@ const query = gql`
 	}
 `
 
-function marketplace({ }) {
+function marketplace(props) {
+  const { router } = props;
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [type, setType] = useState("");
@@ -157,7 +161,7 @@ function marketplace({ }) {
           );
         }}
       </Query>
-      <BottomNav initialRoute={"marketplace"} userID={query.user} />
+      <BottomNav initialRoute={"marketplace"} userID={router.query.user} />
     </>
   );
 }
@@ -169,6 +173,6 @@ marketplace.defaultProps = {
   query: PropTypes.object,
 };
 
-export default withData(marketplace);
+export default withRouter(withData(marketplace));
 
 // marketplace.getInitialProps = ({ query }) => ({ query });
