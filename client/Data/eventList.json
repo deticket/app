@@ -1,60 +1,64 @@
 {
-  "events": [{
-    "event_ID": "1111111",
-    "event_name": "Concert Fantasy Band",
-    "event_owner": "Concert Organizer",
-    "event_owner_address": "0x1",
-    "ticket_data": {
-      "ticket_price": "49.50",
-      "mark_up_allowed": "0",
-      "total_tickets": "10000",
-      "tickets_sold": "7228",
-      "resale": "false"
+  "events": [
+    {
+      "event_ID": "1111111",
+      "event_name": "Concert Fantasy Band",
+      "event_owner": "Concert Organizer",
+      "event_owner_address": "0x1",
+      "ticket_data": {
+        "ticket_price": "49.50",
+        "mark_up_allowed": "0",
+        "total_tickets": "10000",
+        "tickets_sold": "7228",
+        "resale": "false"
+      },
+      "event_details": {
+        "location_name": "Fantasy Arena",
+        "address": "ABC Street 123",
+        "city": "Berlin",
+        "country": "Germany",
+        "date": "12/05/2019"
+      }
     },
-    "event_details": {
-      "location_name": "Fantasy Arena",
-      "address": "ABC Street 123",
-      "city": "Berlin",
-      "country": "Germany",
-      "date": "12/05/2019"
-    }
-  }, {
-    "event_ID": "2222222",
-    "event_name": "Hertha BSC - League",
-    "event_owner": "Hertha BSC Berlin",
-    "event_owner_address": "0x2",
-    "ticket_data": {
-      "ticket_price": "49.50",
-      "mark_up_allowed": "0",
-      "total_tickets": "74000",
-      "tickets_sold": "7228",
-      "resale": "false"
+    {
+      "event_ID": "2222222",
+      "event_name": "Hertha BSC - League",
+      "event_owner": "Hertha BSC Berlin",
+      "event_owner_address": "0x2",
+      "ticket_data": {
+        "ticket_price": "49.50",
+        "mark_up_allowed": "0",
+        "total_tickets": "74000",
+        "tickets_sold": "7228",
+        "resale": "false"
+      },
+      "event_details": {
+        "location_name": "Olympia Stadion",
+        "address": "XYZ Street 123",
+        "city": "Berlin",
+        "country": "Germany",
+        "date": "15/05/2019"
+      }
     },
-    "event_details": {
-      "location_name": "Olympia Stadion",
-      "address": "XYZ Street 123",
-      "city": "Berlin",
-      "country": "Germany",
-      "date": "15/05/2019"
+    {
+      "event_ID": "3333333",
+      "event_name": "Cosmos Meetup",
+      "event_owner": "Cosmos",
+      "event_owner_address": "0x3",
+      "ticket_data": {
+        "ticket_price": "0",
+        "mark_up_allowed": "0",
+        "total_tickets": "100",
+        "tickets_sold": "40",
+        "resale": "false"
+      },
+      "event_details": {
+        "location_name": "Fullnode Co-Working",
+        "address": "Skalitzer Str. 85",
+        "city": "Berlin",
+        "country": "Germany",
+        "date": "19/08/2019"
+      }
     }
-  }, {
-    "event_ID": "3333333",
-    "event_name": "Cosmos Meetup",
-    "event_owner": "Cosmos",
-    "event_owner_address": "0x3",
-    "ticket_data": {
-      "ticket_price": "0",
-      "mark_up_allowed": "0",
-      "total_tickets": "100",
-      "tickets_sold": "40",
-      "resale": "false"
-    },
-    "event_details": {
-      "location_name": "Fullnode Co-Working",
-      "address": "XYZ Straße 456",
-      "city": "Berlin",
-      "country": "Germany",
-      "date": "19/05/2019"
-    }
-  }]
+  ]
 }
